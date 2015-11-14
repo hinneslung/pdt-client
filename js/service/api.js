@@ -1,8 +1,7 @@
 function apiService($http, $rootScope) {
-    var apiUrl = "http://45.115.39.208/api/";
-    var apiUploadUrl = apiUrl + 'upload';
+    var apiUrl = "http://45.115.39.208:8000/api/";
 
-    var api = {apiUrl : apiUrl, apiUploadUrl:apiUploadUrl};
+    var api = {apiUrl : apiUrl};
 
     //-----------------------------------------------------------------------------User
     api.login = function(type) {
