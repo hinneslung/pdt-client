@@ -9,14 +9,24 @@
 
 		$scope.getUsers = function() {
 			apiService.projectManagers().success(function(data) {
-				$scope.projectManagers = data.data;
+				console.log(data);
+				$scope.projectManagers = data;
 			});
 			apiService.developers().success(function(data) {
-				$scope.developers = data.data;
+				$scope.developers = data;
 			});
 		};
 
-		$scope.projectManagers();
-		$scope.developers();
+        $scope.createUser = function() {
+
+        };
+
+		$scope.getUsers();
 	});
+
+    app.controller('CreateUserController', function($scope, $rootScope, apiService){
+        $scope.self = $scope;
+
+
+    });
 })();

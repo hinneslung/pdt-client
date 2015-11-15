@@ -1,29 +1,51 @@
-<div class="panel panel-default">
-    <div class="panel-heading">Project Managers</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <button type="button" class="btn btn-default btn-md">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Project Manager
+            </button>
+            <button type="button" class="btn btn-default btn-md">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Developer
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Project Managers</div>
 
-    <table class="table">
-        <tr>
-            <th>Username</th><th>Display name</th><th>email</th><th>Username</th>
-        </tr>
-        <tr ng-repeat="pm in projectManagers">
-            <td>
-                hi
-            </td>
-        </tr>
-    </table>
-</div>
+                <table class="table">
+                    <tr>
+                        <th>id</th><th>Username</th><th>Display name</th><th>email</th><th></th><th></th>
+                    </tr>
+                    <tr ng-repeat="pm in projectManagers">
+                        <td>{{pm.user.id}}</td>
+                        <td>{{pm.user.username}}</td>
+                        <td>{{pm.user.display_name}}</td>
+                        <td>{{pm.user.email}}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
 
-<div class="panel panel-default">
-    <div class="panel-heading">Developers</div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Developers</div>
 
-    <table class="table">
-        <tr>
-            <th>Username</th><th>Display name</th><th>email</th><th>Username</th>
-        </tr>
-        <tr ng-repeat="pm in projectManagers">
-            <td>
-                hi
-            </td>
-        </tr>
-    </table>
+                <table class="table">
+                    <tr>
+                        <th>id</th><th>Username</th><th>Display name</th><th>email</th><th></th><th></th>
+                    </tr>
+                    <tr ng-repeat="dev in developers">
+                        <td>{{dev.user.id}}</td>
+                        <td>{{dev.user.username}}</td>
+                        <td>{{dev.user.display_name}}</td>
+                        <td>{{dev.user.email}}</td>
+                        <td</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
