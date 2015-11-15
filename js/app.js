@@ -1,13 +1,20 @@
 (function() {
     var app = angular.module('pdt',
         ['ngRoute', 'ui.bootstrap',
-        'pdtHome']
+        'pdtHome', 'pdtAdmin']
     );
 
     //API factory
     app.factory('apiService', apiService);
 
-
+	app.config(function($httpProvider) {
+		delete $httpProvider.defaults.headers.common['X-Requested-With'];
+		$httpProvider.defaults.useXDomain = true;
+		$httpProvider.defaults.withCredentials = true;
+		delete $httpProvider.defaults.headers.common["X-Requested-With"];
+		$httpProvider.defaults.headers.common["Accept"] = "application/json";
+		$httpProvider.defaults.headers.common["Content-Type"] = "application/json";
+	});
 
     //Routing
     app.config(function ($routeProvider, $locationProvider) {
@@ -22,6 +29,10 @@
             .when('/login', {
                 controller: 'LoginController',
                 templateUrl: 'views/login.html'
+            })
+            .when('/admin', {
+                controller: 'AdminController',
+                templateUrl: 'views/admin.html'
             })
             .otherwise({
                 redirectTo: '/'
