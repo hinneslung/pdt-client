@@ -1,7 +1,7 @@
 (function() {
 	var app = angular.module('pdtAdmin', []);
 
-	app.controller('AdminController', function($scope, $rootScope, apiService){
+	app.controller('AdminController', function($scope, $rootScope, $location, apiService){
 		$scope.self = $scope;
 
 		$scope.projectManagers = [];
@@ -18,7 +18,7 @@
 		};
 
         $scope.createUser = function() {
-
+			$location.path("admin/createuser");
         };
 
 		$scope.getUsers();
@@ -27,6 +27,19 @@
     app.controller('CreateUserController', function($scope, $rootScope, apiService){
         $scope.self = $scope;
 
+        $scope.type = "projectmanager";
+		$scope.username = "";
+		$scope.displayName = "";
+		$scope.email = "";
+		$scope.password = "";
 
+        $scope.create = function() {
+            console.log($scope.type + $scope.username + $scope.displayName + $scope.email + $scope.password);
+            apiService.createUser($scope.type, $scope.username, $scope.displayName, $scope.email, $scope.password)
+                .success(function(data) {
+                    console.log(data);
+                }
+            );
+        };
     });
 })();

@@ -25,9 +25,17 @@
                 controller: 'AdminController',
                 templateUrl: 'views/admin.html'
             })
-            .when('/admin/create-user', {
+            .when('/admin/createuser', {
                 controller: 'CreateUserController',
-                templateUrl: 'views/create-user.html'
+                templateUrl: 'views/createuser.html'
+            })
+            .when('/projectmanager', {
+                controller: 'ProjectManagerController',
+                templateUrl: 'views/projectmanager.html'
+            })
+            .when('/developer', {
+                controller: 'DeveloperController',
+                templateUrl: 'views/developer.html'
             })
             .otherwise({
                 redirectTo: '/'

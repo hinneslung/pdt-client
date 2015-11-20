@@ -17,6 +17,10 @@
 	        apiService.login($scope.username, $scope.password).success(function(data) {
 				if ($scope.username == 'admin')
 					$location.path("admin");
+                else if ($scope.username == 'manager')
+                    $location.path("projectmanager");
+                else if ($scope.username == 'developer')
+                    $location.path("developer");
 	        });
         };
     });

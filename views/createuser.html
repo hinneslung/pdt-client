@@ -1,0 +1,71 @@
+<form class="form-horizontal" name="createUserForm" ng-submit="createUserForm.$valid && create()" novalidate>
+    <fieldset>
+
+        <!-- Form Name -->
+        <legend>Create User</legend>
+
+        <!-- Multiple Radios (inline) -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="type">User Type</label>
+            <div class="col-md-4">
+                <label class="radio-inline" for="type-0">
+                    <input type="radio" name="type" id="type-0" value="projectmanager" checked="checked" ng-model="type">
+                    Project Manager
+                </label>
+                <label class="radio-inline" for="type-1">
+                    <input type="radio" name="type" id="type-1" value="developer" ng-model="type">
+                    Developer
+                </label>
+            </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="username">Username</label>
+            <div class="col-md-4">
+                <input id="username" name="username" type="text" placeholder="" class="form-control input-md" ng-model="username" required>
+
+            </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="display_name">Display Name</label>
+            <div class="col-md-4">
+                <input id="display_name" name="display_name" type="text" placeholder="" class="form-control input-md" ng-model="displayName" required>
+
+            </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="email">Email</label>
+            <div class="col-md-4">
+                <input id="email" name="email" type="text" placeholder="" class="form-control input-md" ng-model="email" required="">
+
+            </div>
+        </div>
+
+        <!-- Password input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="password">Password</label>
+            <div class="col-md-4">
+                <input id="password" name="password" type="password" placeholder="" class="form-control input-md" ng-model="password" required>
+
+            </div>
+        </div>
+
+        <br>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+
+    </fieldset>
+</form>
+
+<style>
+    form{
+        margin: 0 auto;
+        max-width: 560px;
+        padding: 24px;
+    }
+</style>
