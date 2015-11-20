@@ -1,7 +1,7 @@
 (function() {
     var app = angular.module('pdt',
         ['ngRoute', 'ui.bootstrap',
-        'pdtCommon', 'pdtHome', 'pdtAdmin']
+        'pdtCommon', 'pdtHome', 'pdtAdmin', 'pdtProjectManager', 'pdtDeveloper']
     );
 
     //API factory
@@ -25,8 +25,8 @@
 
         $routeProvider
             .when('/', {
-                controller: 'LoginController',
-                templateUrl: 'views/login.html'
+                controller: 'HomeController',
+                templateUrl: 'views/home.html'
             })
             .when('/login', {
                 controller: 'LoginController',
@@ -40,10 +40,16 @@
                 controller: 'CreateUserController',
                 templateUrl: 'views/createuser.html'
             })
+
             .when('/projectmanager', {
                 controller: 'ProjectManagerController',
                 templateUrl: 'views/projectmanager.html'
             })
+	        .when('/projectmanager/createproject', {
+		        controller: 'CreateProjectController',
+		        templateUrl: 'views/createproject.html'
+	        })
+
             .when('/developer', {
                 controller: 'DeveloperController',
                 templateUrl: 'views/developer.html'

@@ -15,6 +15,10 @@ function apiService($http, $rootScope) {
 		return $http.get(apiUrl + 'developer/' + jsonQuery);
 	};
 
+	api.projectManager = function(id) {
+		return $http.get(apiUrl + 'projectmanager/' + id + '/' + jsonQuery);
+	};
+
     api.projectManagers = function() {
         return $http.get(apiUrl + 'projectmanager/' + jsonQuery);
     };
@@ -27,6 +31,33 @@ function apiService($http, $rootScope) {
             password: password
         });
     };
+
+	//-----------------------------------------------------------------------------Project
+	api.createProject = function(managerId, title, description, developerIds, iterationNumbers) {
+		return $http.post(apiUrl + 'project' + "/", {
+			title: title,
+			description: description,
+			developers: developerIds,
+			managed_by: managerId,
+			number_of_iterations:{
+				inception: iterationNumbers[0],
+				elaboration: iterationNumbers[1],
+				construction: iterationNumbers[2],
+				transition: iterationNumbers[3]
+			}
+		});
+	};
+
+	api.updateProject = function(id, iterationNumbers) {
+		return $http.put(apiUrl + 'project/' + id + "/", {
+			number_of_iterations:{
+				inception: iterationNumbers[0],
+				elaboration: iterationNumbers[1],
+				construction: iterationNumbers[2],
+				transition: iterationNumbers[3]
+			}
+		});
+	};
 
     return api;
 }

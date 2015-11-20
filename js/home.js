@@ -10,6 +10,8 @@
 				path = 'projectmanager';
 		    else if ($rootScope.userType === 'developer')
 				path = 'developer';
+			else if ($rootScope.userType === 'admin')
+				path = 'admin';
 	    }
 	    $location.path(path);
     });
@@ -23,6 +25,10 @@
         $scope.login = function() {
 	        console.log($scope.username + " " + $scope.password);
 	        if ($scope.username === 'admin') {
+		        localStorage.setItem('userType', 'admin');
+		        localStorage.setItem('userId', 0);
+		        $rootScope.userType = 'admin';
+		        $rootScope.userId = 0;
 		        $location.path("admin");
 		        return;
 	        }
