@@ -1,9 +1,17 @@
 (function() {
     var app = angular.module('pdtHome', []);
 
-    app.controller('HomeController', function($scope, $rootScope, apiService){
+    app.controller('HomeController', function($scope, $rootScope, $location, apiService){
         $scope.self = $scope;
 
+	    var path = 'login';
+	    if ($rootScope.userType && $rootScope.userId) {
+			if ($rootScope.userType === 'projectmanager')
+				path = 'projectmanager';
+		    else if ($rootScope.userType === 'developer')
+				path = 'developer';
+	    }
+	    $location.path(path);
     });
 
     app.controller('LoginController', function($scope, $rootScope, $location, apiService){
@@ -14,13 +22,25 @@
 
         $scope.login = function() {
 	        console.log($scope.username + " " + $scope.password);
+	        if ($scope.username === 'admin') {
+		        $location.path("admin");
+		        return;
+	        }
 	        apiService.login($scope.username, $scope.password).success(function(data) {
-				if ($scope.username == 'admin')
-					$location.path("admin");
-                else if ($scope.username == 'manager')
-                    $location.path("projectmanager");
-                else if ($scope.username == 'developer')
-                    $location.path("developer");
+		        console.log(data);
+
+		        var type = data.user_type === "Developer" ? 'developer' : 'projectmanager';
+		        var id = data.id;
+
+		        localStorage.setItem('userType', type);
+		        localStorage.setItem('userId', id);
+
+		        $rootScope.userType = type;
+		        $rootScope.userId = id;
+
+		        $location.path(type);
+	        }).error(function(data) {
+		        alert(data.error);
 	        });
         };
     });

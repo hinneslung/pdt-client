@@ -24,7 +24,7 @@
 		$scope.getUsers();
 	});
 
-    app.controller('CreateUserController', function($scope, $rootScope, apiService){
+    app.controller('CreateUserController', function($scope, $rootScope, $location, apiService){
         $scope.self = $scope;
 
         $scope.type = "projectmanager";
@@ -38,8 +38,12 @@
             apiService.createUser($scope.type, $scope.username, $scope.displayName, $scope.email, $scope.password)
                 .success(function(data) {
                     console.log(data);
-                }
-            );
+		            $location.path("admin");
+                })
+	            .error(function(data) {
+		            console.log(data.error);
+	            })
+            ;
         };
     });
 })();

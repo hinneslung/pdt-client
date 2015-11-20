@@ -6,7 +6,9 @@ function apiService($http, $rootScope) {
 
     //-----------------------------------------------------------------------------User
     api.login = function(username, password) {
-        return $http.get(apiUrl + 'developer/' + jsonQuery);
+        return $http.post(apiUrl + 'auth/login/', {
+            username: username, password: password
+        });
     };
 
 	api.developers = function() {
@@ -20,7 +22,7 @@ function apiService($http, $rootScope) {
     api.createUser = function(type, username, displayName, email, password) {
         return $http.post(apiUrl + type + "/", {
             username: username,
-            displayName: displayName,
+            display_name: displayName,
             email: email,
             password: password
         });

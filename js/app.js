@@ -1,11 +1,22 @@
 (function() {
     var app = angular.module('pdt',
         ['ngRoute', 'ui.bootstrap',
-        'pdtHome', 'pdtAdmin']
+        'pdtCommon', 'pdtHome', 'pdtAdmin']
     );
 
     //API factory
     app.factory('apiService', apiService);
+
+	//user info
+	app.run(function($rootScope) {
+		var userType = localStorage.getItem('userType');
+		var userId = localStorage.getItem('userId');
+		if (userType && userId) {
+			console.log('localStorage ' + userType + ' ' + userId);
+			$rootScope.userType= userType;
+			$rootScope.userId = userId;
+		}
+	});
 
     //Routing
     app.config(function ($routeProvider, $locationProvider) {
