@@ -4,7 +4,7 @@
         $scope.self = $scope;
         $scope.navColumnItems = [];//list of projects, also for providing items to navColumn
         $scope.activity = undefined;//activity object
-        $scope.project = {};
+        $scope.project = {};//project copied from navColumnItems
         $scope.activityTypes = [
 	        {title:'Development', id:0, code:'D'},
 	        {title:'Defect Removal', id:1, code:'R'},
