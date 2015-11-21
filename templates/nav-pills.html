@@ -1,18 +1,8 @@
-<!--<uib-tabset vertical="true" type="pills">-->
-    <!--<uib-tab ng-repeat="item in delegate.navColumnItems" heading="{{item.title}}" ng-click="selectItem(item.id);"></uib-tab>-->
-<!--</uib-tabset>-->
-
 <ul class="nav nav-pills nav-stacked">
     <li role="presentation" ng-class="{'active': isActive(item), 'dropdown':1}" ng-repeat="item in delegate.navColumnItems">
         <a href ng-show="!item.dropdownItems" ng-click="selectItem(item)">
             {{item.title}}
         </a>
-
-        <!--with dropdown items-->
-            <!--<button ng-show="item.dropdownItems.length > 0" id="simple-btn-keyboard-nav" type="button" class="btn btn-primary" uib-dropdown-toggle>-->
-                <!--{{item.title}}-->
-                <!--<span class="caret"></span>-->
-            <!--</button>-->
         <a ng-show="item.dropdownItems.length > 0" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
             {{item.title}}
             <span class="caret"></span>
@@ -24,9 +14,3 @@
         </ul>
     </li>
 </ul>
-
-<style>
-    a{
-        width:100%;
-    }
-</style>

@@ -3,7 +3,7 @@
     app.controller('DeveloperController', function($scope, $rootScope, apiService){
         $scope.self = $scope;
         $scope.navColumnItems = [];
-        $scope.projectId = undefined;
+        $scope.project = {};
         $scope.activities = [
 	        {title:'Development', id:0},
 	        {title:'Defect Removal', id:1},
@@ -28,15 +28,15 @@
         $scope.selectNavColumnDropdownItem = function(item, dropdownItem) {
             for (var i = 0; i < $scope.navColumnItems.length; i++) {
                 if (item.id === $scope.navColumnItems[i].id) {
-                    $scope.projectId = $scope.navColumnItems[i].id;
+                    $scope.project = $scope.navColumnItems[i];
 	                $scope.activityIndex = dropdownItem.id;
                     break;
                 }
             }
-            console.log($scope.projectId + ' ' +  dropdownItem.id);
+            console.log($scope.project.id + ' ' +  dropdownItem.id);
         };
         $scope.isActiveNavColumnItem = function(item) {
-            return item.id == $scope.projectId;
+            return item.id == $scope.project.id;
         };
 
         $scope.getProjects();
