@@ -11,6 +11,10 @@ function apiService($http, $rootScope) {
         });
     };
 
+	api.developer = function(id) {
+		return $http.get(apiUrl + 'developer/' + id + '/' + jsonQuery);
+	};
+
 	api.developers = function() {
 		return $http.get(apiUrl + 'developer/' + jsonQuery);
 	};

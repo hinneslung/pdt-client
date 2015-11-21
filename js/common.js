@@ -19,7 +19,7 @@
 	            };
 
                 $scope.loggedin = function() {
-                    return $scope.clientType !== undefined && $scope.clientType !== null;
+                    return $rootScope.userType && $rootScope.userId;
                 };
             }
         };
@@ -33,8 +33,11 @@
 				delegate: '='
 			},
 			controller: function($window, $rootScope, $scope, $location, apiService) {
-				$scope.selectItem = function(id) {
-					$scope.delegate.selectItem(id);
+				$scope.selectItem = function(item) {
+					$scope.delegate.selectNavColumnItem(item);
+				};
+				$scope.isActive = function(item) {
+					return $scope.delegate.isActiveNavColumnItem(item);
 				};
 			}
 		};

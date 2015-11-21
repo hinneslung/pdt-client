@@ -3,7 +3,8 @@
 
     app.controller('ProjectManagerController', function($scope, $rootScope, $location, apiService){
         $scope.self = $scope;
-	    $scope.items = [];
+	    $scope.navColumnItems = [];
+	    $scope.project = {};
 
         $scope.createProject = function(){
             $location.path('projectmanager/createproject');
@@ -12,12 +13,22 @@
 	    $scope.getProjects = function() {
 		    apiService.projectManager($rootScope.userId).success(function(data) {
 			    console.log(data);
-				$scope.items = data.projects;
+				$scope.navColumnItems = data.projects;
+			    $scope.project = data.projects[0];
 		    });
 	    };
 
-	    $scope.selectItem = function(id) {
-		    console.log(id);
+	    $scope.selectNavColumnItem = function(item) {
+		    for (var i = 0; i < $scope.navColumnItems.length; i++) {
+			    if (item.id === $scope.navColumnItems[i].id) {
+				    $scope.project = $scope.navColumnItems[i];
+				    break;
+			    }
+		    }
+		    console.log(item.id);
+	    };
+	    $scope.isActiveNavColumnItem = function(item) {
+			return item.id == $scope.project.id;
 	    };
 
 	    $scope.getProjects();
