@@ -8,11 +8,22 @@
         <div class="col-md-10">
             <div class="container">
 
-                <legend>{{activities[activityIndex].title}}</legend>
+                <legend>{{activityTypes[activityTypeIndex].title}}</legend>
 
                 <div class="row">
-                    <div class="col-md-12">
+                    <!--Development-->
+                    <div class="col-md-12" ng-show="activityTypeIndex == 0">
+                        dev
+                    </div>
 
+                    <!--Defect Removal-->
+                    <div class="col-md-12" ng-show="activityTypeIndex == 1">
+                        <defect-form delegate="self"></defect-form>
+                    </div>
+
+                    <!--Management-->
+                    <div class="col-md-12" ng-show="activityTypeIndex == 2">
+                        management
                     </div>
                 </div>
 

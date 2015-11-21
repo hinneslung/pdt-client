@@ -63,5 +63,18 @@ function apiService($http, $rootScope) {
 		});
 	};
 
+	//-----------------------------------------------------------------------------Project
+	api.startActivity = function(developerId, projectId, typeCode) {
+		return $http.post(apiUrl + 'activity' + "/", {
+			developer: developerId,
+			project: projectId,
+			type: typeCode
+		});
+	};
+
+	api.endActivity = function(id) {
+		return $http.delete(apiUrl + 'activity' + "/" + id + "/");
+	};
+
     return api;
 }

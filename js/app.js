@@ -1,7 +1,7 @@
 (function() {
     var app = angular.module('pdt',
         ['ngRoute', 'ui.bootstrap',
-        'pdtCommon', 'pdtHome', 'pdtAdmin', 'pdtProjectManager', 'pdtDeveloper']
+        'pdtCommon', 'pdtHome', 'pdtAdmin', 'pdtProjectManager', 'pdtDeveloper', 'pdtDefect']
     );
 
     //API factory

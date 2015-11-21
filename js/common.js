@@ -46,4 +46,23 @@
 		};
 	});
 
+	app.controller('ModalInstanceController', function ($scope, $uibModalInstance, title, details) {
+
+		$scope.title = title;
+		$scope.details = details;
+
+		$scope.ok = function () {
+			$uibModalInstance.close();
+		};
+
+		$scope.cancel = function () {
+			$uibModalInstance.dismiss('cancel');
+		};
+
+		$(window).keyup(function (e) {
+			if (e.keyCode == 13)
+				$scope.ok();
+		});
+	});
+
 })();
