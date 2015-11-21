@@ -2,21 +2,31 @@
     <!--<uib-tab ng-repeat="item in delegate.navColumnItems" heading="{{item.title}}" ng-click="selectItem(item.id);"></uib-tab>-->
 <!--</uib-tabset>-->
 
-<ul class="nav nav-pills">
+<ul class="nav nav-pills nav-stacked">
     <li role="presentation" ng-class="{'active': isActive(item), 'dropdown':1}" ng-repeat="item in delegate.navColumnItems">
-
-        <!--without dropdown item-->
         <a href ng-show="!item.dropdownItems" ng-click="selectItem(item)">
             {{item.title}}
         </a>
 
         <!--with dropdown items-->
-        <a class="dropdown-toggle" ng-show="item.dropdownItems.length > 0" data-toggle="dropdown" href role="button" aria-haspopup="true" aria-expanded="false">
+            <!--<button ng-show="item.dropdownItems.length > 0" id="simple-btn-keyboard-nav" type="button" class="btn btn-primary" uib-dropdown-toggle>-->
+                <!--{{item.title}}-->
+                <!--<span class="caret"></span>-->
+            <!--</button>-->
+        <a ng-show="item.dropdownItems.length > 0" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
             {{item.title}}
             <span class="caret"></span>
         </a>
-        <ul class="dropdown-menu" ng-show="item.dropdownItems.length > 0">
-            <li ng-repeat="dropdownItem in item.dropdownItems"><a href>{{dropdownItem.title}}</a></li>
+        <ul ng-show="item.dropdownItems.length > 0" class="dropdown-menu" role="menu" aria-labelledby="simple-btn-keyboard-nav">
+            <li ng-repeat="dropdownItem in item.dropdownItems" role="menuitem">
+                <a href ng-click="selectDropdownItem(item, dropdownItem)">{{dropdownItem.title}}</a>
+            </li>
         </ul>
     </li>
 </ul>
+
+<style>
+    a{
+        width:100%;
+    }
+</style>

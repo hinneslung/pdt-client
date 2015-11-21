@@ -36,6 +36,9 @@
 				$scope.selectItem = function(item) {
 					$scope.delegate.selectNavColumnItem(item);
 				};
+				$scope.selectDropdownItem = function(item, dropdownItem) {
+					$scope.delegate.selectNavColumnDropdownItem(item, dropdownItem);
+				};
 				$scope.isActive = function(item) {
 					return $scope.delegate.isActiveNavColumnItem(item);
 				};
