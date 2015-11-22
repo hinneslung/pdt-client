@@ -38,18 +38,32 @@
             console.log(project.id + ' ' +  activityType.id);
 
             if ($scope.activity) {
-                apiService.endActivity($scope.activity.id).success(function(data) {
+                apiService.endActivity($rootScope.userId).success(function(data) {
                     console.log(data);
+                    apiService.startActivity($rootScope.userId, project.id, activityType.code).success(function(data) {
+                        console.log(data);
+                        $scope.project = project;
+                        $scope.activityTypeIndex = activityType.id;
+                        $scope.activity = data;
+                    });
+                });
+            } else {
+                apiService.startActivity($rootScope.userId, project.id, activityType.code).success(function(data) {
+                    console.log(data);
+                    $scope.project = project;
+                    $scope.activityTypeIndex = activityType.id;
+                    $scope.activity = data;
                 });
             }
+        };
 
-            apiService.startActivity($rootScope.userId, project.id, activityType.code).success(function(data) {
+        $scope.stopActivity = function() {
+            apiService.endActivity($rootScope.userId).success(function(data) {
                 console.log(data);
-                $scope.activity = data;
+                $scope.project = {};
+                $scope.activityTypeIndex = undefined;
+                $scope.activity = undefined;
             });
-
-            $scope.project = project;
-            $scope.activityTypeIndex = activityType.id;
         };
 
         //modal delegate

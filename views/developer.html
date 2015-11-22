@@ -10,6 +10,10 @@
 
                 <legend>{{activityTypes[activityTypeIndex].title}}</legend>
 
+                <button type="button" class="btn btn-default btn-md" ng-click="stopActivity();" ng-show="activity">
+                    <span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Stop Activity
+                </button>
+
                 <div class="row">
                     <!--Development-->
                     <div class="col-md-12" ng-show="activityTypeIndex == 0">

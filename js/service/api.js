@@ -43,37 +43,36 @@ function apiService($http, $rootScope) {
 			description: description,
 			developers: developerIds,
 			managed_by: managerId,
-			number_of_iterations:{
-				inception: iterationNumbers[0],
-				elaboration: iterationNumbers[1],
-				construction: iterationNumbers[2],
-				transition: iterationNumbers[3]
+			num_of_iterations:{
+				I: iterationNumbers[0],
+				E: iterationNumbers[1],
+				C: iterationNumbers[2],
+				T: iterationNumbers[3]
 			}
 		});
 	};
 
 	api.updateProject = function(id, iterationNumbers) {
 		return $http.put(apiUrl + 'project/' + id + "/", {
-			number_of_iterations:{
-				inception: iterationNumbers[0],
-				elaboration: iterationNumbers[1],
-				construction: iterationNumbers[2],
-				transition: iterationNumbers[3]
+			num_of_iterations:{
+				I: iterationNumbers[0],
+				E: iterationNumbers[1],
+				C: iterationNumbers[2],
+				T: iterationNumbers[3]
 			}
 		});
 	};
 
 	//-----------------------------------------------------------------------------Project
 	api.startActivity = function(developerId, projectId, typeCode) {
-		return $http.post(apiUrl + 'activity' + "/", {
-			developer: developerId,
+		return $http.post(apiUrl + 'developer/' + developerId + '/activity/start/', {
 			project: projectId,
-			type: typeCode
+			activity_type: typeCode
 		});
 	};
 
-	api.endActivity = function(id) {
-		return $http.delete(apiUrl + 'activity' + "/" + id + "/");
+	api.endActivity = function(developerId) {
+		return $http.delete(apiUrl + 'developer/' + developerId + '/activity/close/');
 	};
 
     return api;
