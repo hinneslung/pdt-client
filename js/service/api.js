@@ -67,7 +67,14 @@ function apiService($http, $rootScope) {
 		});
 	};
 
-	//-----------------------------------------------------------------------------Project
+	//-----------------------------------------------------------------------------Iteration
+	api.stopIteration = function(projectId, sloc) {
+		return $http.delete(apiUrl + 'project/' + projectId + '/iteration/close/', {
+			lines_of_codes: sloc
+		});
+	};
+
+	//-----------------------------------------------------------------------------Activity
 	api.startActivity = function(developerId, projectId, typeCode) {
 		return $http.post(apiUrl + 'developer/' + developerId + '/activity/start/', {
 			project: projectId,
