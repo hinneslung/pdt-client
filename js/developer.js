@@ -26,15 +26,24 @@
             });
         };
 
+        $scope.getProject = function(id) {
+            apiService.project(id).success(function(data) {
+                console.log(data);
+                data = productService.processProject(data);
+                $scope.project = data;
+            });
+        };
+
         $scope.switchTo = function(project, activityType) {
             console.log(project.id + ' ' +  activityType.id);
+
+            $scope.getProject(project.id);
 
             if ($scope.activity) {
                 apiService.endActivity($rootScope.userId).success(function(data) {
                     console.log(data);
                     apiService.startActivity($rootScope.userId, project.id, activityType.code).success(function(data) {
                         console.log(data);
-                        $scope.project = project;
                         $scope.activityTypeIndex = activityType.id;
                         $scope.activity = data;
                     });
@@ -42,7 +51,6 @@
             } else {
                 apiService.startActivity($rootScope.userId, project.id, activityType.code).success(function(data) {
                     console.log(data);
-                    $scope.project = project;
                     $scope.activityTypeIndex = activityType.id;
                     $scope.activity = data;
                 });
