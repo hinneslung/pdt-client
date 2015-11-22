@@ -11,6 +11,8 @@
             controller: function($window, $rootScope, $scope, $location, apiService) {
 
 	            $scope.logout = function() {
+					$scope.delegate.navBarLogout();
+
 		            localStorage.removeItem('userType');
 		            localStorage.removeItem('userId');
 		            $rootScope.userType = undefined;

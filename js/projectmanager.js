@@ -6,6 +6,8 @@
 	    $scope.navColumnItems = [];
 	    $scope.project = {};
 
+		$scope.phaseTitles = ['Inception', 'Elaboration', 'Construction', 'Transition'];
+
         $scope.createProject = function(){
             $location.path('projectmanager/createproject');
         };
@@ -14,14 +16,24 @@
 		    apiService.projectManager($rootScope.userId).success(function(data) {
 			    console.log(data);
 				$scope.navColumnItems = data.projects;
-			    $scope.project = data.projects[0];
+				if (data.projects.length > 0)
+					$scope.getProject(data.projects[0].id);
 		    });
 	    };
+
+		$scope.getProject = function(id) {
+			apiService.project(id).success(function(data) {
+				for (var i = 0; i < 3; i++)
+					data.phases[i].title = $scope.phaseTitles[i];
+				$scope.project = data;
+			});
+		};
 
 	    $scope.selectNavColumnItem = function(item) {
 		    for (var i = 0; i < $scope.navColumnItems.length; i++) {
 			    if (item.id === $scope.navColumnItems[i].id) {
-				    $scope.project = $scope.navColumnItems[i];
+					$scope.getProject($scope.navColumnItems[i].id);
+				    //$scope.project = $scope.navColumnItems[i];
 				    break;
 			    }
 		    }

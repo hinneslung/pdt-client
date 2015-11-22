@@ -1,6 +1,6 @@
 (function() {
     var app = angular.module('pdt',
-        ['ngRoute', 'ui.bootstrap',
+        ['ngRoute', 'ui.bootstrap', 'timer',
         'pdtCommon', 'pdtHome', 'pdtAdmin', 'pdtProjectManager', 'pdtDeveloper', 'pdtDefect']
     );
 

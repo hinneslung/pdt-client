@@ -37,8 +37,12 @@ function apiService($http, $rootScope) {
     };
 
 	//-----------------------------------------------------------------------------Project
+	api.project = function(id) {
+		return $http.get(apiUrl + 'project/' + id + '/' + jsonQuery);
+	};
+
 	api.createProject = function(managerId, title, description, developerIds, iterationNumbers) {
-		return $http.post(apiUrl + 'project' + "/", {
+		return $http.post(apiUrl + 'project/', {
 			title: title,
 			description: description,
 			developers: developerIds,

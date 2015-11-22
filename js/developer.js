@@ -1,6 +1,6 @@
 (function() {
     var app = angular.module('pdtDeveloper', []);
-    app.controller('DeveloperController', function($scope, $rootScope, $uibModal, apiService){
+    app.controller('DeveloperController', function($scope, $rootScope, $window, $uibModal, apiService){
         $scope.self = $scope;
         $scope.navColumnItems = [];//list of projects, also for providing items to navColumn
         $scope.activity = undefined;//activity object
@@ -26,14 +26,6 @@
             });
         };
 
-        //nav column delegate
-        $scope.selectNavColumnDropdownItem = function(item, dropdownItem) {
-            $scope.promptSwitch(item, dropdownItem);
-        };
-        $scope.isActiveNavColumnItem = function(item) {
-            return item.id == $scope.project.id;
-        };
-
         $scope.switchTo = function(project, activityType) {
             console.log(project.id + ' ' +  activityType.id);
 
@@ -55,6 +47,19 @@
                     $scope.activity = data;
                 });
             }
+        };
+
+        //nav bar delegate
+        $scope.navBarLogout = function() {
+            $scope.stopActivity();
+        };
+
+        //nav column delegate
+        $scope.selectNavColumnDropdownItem = function(item, dropdownItem) {
+            $scope.promptSwitch(item, dropdownItem);
+        };
+        $scope.isActiveNavColumnItem = function(item) {
+            return item.id == $scope.project.id;
         };
 
         $scope.stopActivity = function() {
@@ -86,5 +91,17 @@
 
         //run time
         $scope.getProjects();
+
+        //timeAgo.settings.fullDateAfterSeconds = 0;
+    });
+
+
+    app.filter('timeAgo', function () {
+        return function (input) {
+            var fromTime = new Date(input);
+            var nowTime = new Date();
+            var diff = nowTime - fromTime;
+            return diff + ' ' + nowTime + ' ' + fromTime;
+        };
     });
 })();
