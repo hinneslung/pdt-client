@@ -3,6 +3,10 @@
 </div>
 <div class="modal-body">
     <p>{{details}}</p>
+    <div ng-repeat="(key, value) in promptParams" class="form-group">
+        <label class="col-md-4 control-label" for="{{key}}">{{value.title}}</label>
+        <input type="text" name="{{key}}" ng-model="value.value"/>
+    </div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>

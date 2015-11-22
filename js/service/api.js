@@ -68,7 +68,7 @@ function apiService($http, $rootScope) {
 	};
 
 	//-----------------------------------------------------------------------------Iteration
-	api.stopIteration = function(projectId, sloc) {
+	api.closeIteration = function(projectId, sloc) {
 		return $http.delete(apiUrl + 'project/' + projectId + '/iteration/close/', {
 			lines_of_codes: sloc
 		});

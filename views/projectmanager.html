@@ -10,9 +10,40 @@
     </button>
 </div>
 <div class="col-md-10">
-    <div class="container">
 
         <uib-tabset>
+            <!--Metrics-->
+            <uib-tab>
+                <uib-tab-heading>
+                    <i class="glyphicon glyphicon-th-list"></i> Metrics
+                </uib-tab-heading>
+
+                <br>
+                <button type="button" class="btn btn-default btn-md" ng-click="closeIterationPressed();">
+                    <span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Close Active Iteration
+                </button>
+                <br><br>
+
+
+                <div class="row" ng-repeat="(phaseIndex, phase) in project.phases" style="width: 100%">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">{{phase.title}} - {{projectService.status(phase)}}</div>
+                            <table class="table">
+                                <tr>
+                                    <th>Iteration Index</th><th>id</th><th>status</th>
+                                </tr>
+                                <tr ng-repeat="(iterationIndex, iteration) in phase.iterations">
+                                    <td>{{iterationIndex + 1}}</td>
+                                    <td>{{iteration.id}}</td>
+                                    <td>{{projectService.status(iteration)}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+
             <!--Developers-->
             <uib-tab>
                 <uib-tab-heading>
@@ -35,51 +66,11 @@
                 </div>
 
             </uib-tab>
-
-            <!--Phases-->
-            <uib-tab>
-                <uib-tab-heading>
-                    <i class="glyphicon glyphicon-th-list"></i> Phases
-                </uib-tab-heading>
-
-                <button type="button" class="btn btn-default btn-md" ng-click="createProject();">
-                    <span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Close Iteration
-                </button>
-
-                <div class="row" ng-repeat="(phaseIndex, phase) in project.phases">
-                    <div class="col-md-12">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">{{phase.title}}</div>
-                            <table class="table">
-                                <tr>
-                                    <th>id</th><th>Index</th><th>Display name</th><th>email</th><th></th>
-                                </tr>
-                                <tr ng-repeat="(iterationIndex, iteration) in phase.iterations">
-                                    <td>{{iteration.id}}</td>
-                                    <td>{{iterationIndex}}</td>
-                                    <td>{{iteration.id}}</td>
-                                    <td>{{pm.email}}</td>
-                                    <td><a href ng-click="editUser(pm);">Edit</a></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </uib-tab>
-
-            <!--Metrics-->
-            <uib-tab>
-                <uib-tab-heading>
-                    <i class="glyphicon glyphicon-signal"></i> Metrics
-                </uib-tab-heading>
-
-            </uib-tab>
         </uib-tabset>
 
 
 
 
-    </div>
 </div>
 </div>
 </div>

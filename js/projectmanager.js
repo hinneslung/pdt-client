@@ -1,12 +1,12 @@
 (function() {
     var app = angular.module('pdtProjectManager', []);
 
-    app.controller('ProjectManagerController', function($scope, $rootScope, $location, apiService){
+    app.controller('ProjectManagerController', function($scope, $rootScope, $location,
+                                                        apiService, modalService, productService){
         $scope.self = $scope;
+	    $scope.projectService = productService;
 	    $scope.navColumnItems = [];
 	    $scope.project = {};
-
-		$scope.phaseTitles = ['Inception', 'Elaboration', 'Construction', 'Transition'];
 
         $scope.createProject = function(){
             $location.path('projectmanager/createproject');
@@ -23,17 +23,35 @@
 
 		$scope.getProject = function(id) {
 			apiService.project(id).success(function(data) {
-				for (var i = 0; i < 3; i++)
-					data.phases[i].title = $scope.phaseTitles[i];
+				console.log(data);
+				data = productService.processProject(data);
 				$scope.project = data;
 			});
 		};
 
+	    //close iteration
+	    $scope.closeIterationPressed = function() {
+		    modalService.open(
+				    "Close Iteration",
+				    "Please enter the number of source lines of codes",
+				    [{identifier: 'sloc', title: 'SLOC'}],
+				    $scope.closeIteration
+		    );
+	    };
+
+	    $scope.closeIteration = function(params) {
+		    console.log($scope.project.id + ' ' + params.sloc);
+		    apiService.closeIteration($scope.project.id, params.sloc).success(function(data) {
+			    console.log(data);
+		    });
+	    };
+
+
+	    //nav column delegate
 	    $scope.selectNavColumnItem = function(item) {
 		    for (var i = 0; i < $scope.navColumnItems.length; i++) {
 			    if (item.id === $scope.navColumnItems[i].id) {
 					$scope.getProject($scope.navColumnItems[i].id);
-				    //$scope.project = $scope.navColumnItems[i];
 				    break;
 			    }
 		    }
@@ -43,6 +61,7 @@
 			return item.id == $scope.project.id;
 	    };
 
+	    //run time
 	    $scope.getProjects();
     });
 

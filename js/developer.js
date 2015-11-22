@@ -81,7 +81,8 @@
                     title: function () {return "Confirm";},
                     details: function () {
                         return "Do you want to switch to " + project.title + " " + activityType.title + "?";
-                    }
+                    },
+                    promptParams: function () {return [];}
                 }
             });
             modalInstance.result.then(function (selectedItem) {
@@ -91,17 +92,5 @@
 
         //run time
         $scope.getProjects();
-
-        //timeAgo.settings.fullDateAfterSeconds = 0;
-    });
-
-
-    app.filter('timeAgo', function () {
-        return function (input) {
-            var fromTime = new Date(input);
-            var nowTime = new Date();
-            var diff = nowTime - fromTime;
-            return diff + ' ' + nowTime + ' ' + fromTime;
-        };
     });
 })();

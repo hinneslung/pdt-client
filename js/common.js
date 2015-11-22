@@ -11,7 +11,8 @@
             controller: function($window, $rootScope, $scope, $location, apiService) {
 
 	            $scope.logout = function() {
-					$scope.delegate.navBarLogout();
+		            if ($scope.delegate && typeof($scope.delegate.navBarLogout) == "function")
+			            $scope.delegate.navBarLogout();
 
 		            localStorage.removeItem('userType');
 		            localStorage.removeItem('userId');
@@ -48,13 +49,46 @@
 		};
 	});
 
-	app.controller('ModalInstanceController', function ($scope, $uibModalInstance, title, details) {
+	app.service('modalService', function($uibModal) {
+		var ms = {};
+
+		ms.open = function(title, details, promptParams, callback) {
+			var modalInstance = $uibModal.open({
+				animation: true,
+				templateUrl: '/pdt/templates/modal.html',
+				controller: 'ModalInstanceController',
+				resolve: {
+					title: function () {return title;},
+					details: function () {return details;},
+					promptParams: function () {return promptParams;}
+				}
+			});
+			modalInstance.result.then(function (params) {
+				callback(params);
+			}, undefined);
+		};
+
+		return ms;
+	});
+
+	app.controller('ModalInstanceController', function ($scope, $uibModalInstance, title, details, promptParams) {
 
 		$scope.title = title;
 		$scope.details = details;
 
+		$scope.promptParams = {};
+		for (var i = 0; i < promptParams.length; i++) {
+			$scope.promptParams[promptParams[i].identifier] = {};
+			$scope.promptParams[promptParams[i].identifier].value = "";
+			$scope.promptParams[promptParams[i].identifier].title = promptParams[i].title;
+		}
+
 		$scope.ok = function () {
-			$uibModalInstance.close();
+			var params = {};
+			for (var key in $scope.promptParams)
+				if ($scope.promptParams.hasOwnProperty(key))
+					params[key] = $scope.promptParams[key].value;
+			$uibModalInstance.close(params);
 		};
 
 		$scope.cancel = function () {
