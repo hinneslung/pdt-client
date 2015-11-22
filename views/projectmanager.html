@@ -31,12 +31,16 @@
                             <div class="panel-heading">{{phase.title}} - {{projectService.status(phase)}}</div>
                             <table class="table">
                                 <tr>
-                                    <th>Iteration Index</th><th>id</th><th>status</th>
+                                    <th>Iteration</th><th>status</th>
+                                    <th>SLOC</th><th>Effort in person-month</th>
+                                    <th>id</th>
                                 </tr>
                                 <tr ng-repeat="(iterationIndex, iteration) in phase.iterations">
                                     <td>{{iterationIndex + 1}}</td>
-                                    <td>{{iteration.id}}</td>
                                     <td>{{projectService.status(iteration)}}</td>
+                                    <td>{{iteration.sloc}} ({{iteration.sloc / project.sloc | percentage: 2}})</td>
+                                    <td>{{iteration.effort | number:4}} ({{iteration.effort / project.effort | percentage: 2}})</td>
+                                    <td>{{iteration.id}}</td>
                                 </tr>
                             </table>
                         </div>
