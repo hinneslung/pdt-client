@@ -2,9 +2,9 @@
     var app = angular.module('pdtProjectManager', []);
 
     app.controller('ProjectManagerController', function($scope, $rootScope, $location,
-                                                        apiService, modalService, productService){
+                                                        apiService, modalService, projectService){
         $scope.self = $scope;
-	    $scope.projectService = productService;
+	    $scope.projectService = projectService;
 	    $scope.navColumnItems = [];
 	    $scope.project = {};
 
@@ -18,13 +18,15 @@
 				$scope.navColumnItems = data.projects;
 				if (data.projects.length > 0)
 					$scope.getProject(data.projects[0].id);
+				else
+					$scope.createProject();
 		    });
 	    };
 
 		$scope.getProject = function(id) {
 			apiService.project(id).success(function(data) {
 				console.log(data);
-				data = productService.processProject(data);
+				data = projectService.processProject(data);
 				$scope.project = data;
 			});
 		};
@@ -42,7 +44,7 @@
 	    $scope.closeIteration = function(params) {
 		    console.log($scope.project.id + ' ' + params.sloc);
 		    apiService.closeIteration($scope.project.id, params.sloc).success(function(data) {
-			    console.log(data);
+			    $scope.getProject($scope.project.id);
 		    });
 	    };
 

@@ -6,7 +6,7 @@
 
     //API factory
     app.factory('apiService', apiService);
-    app.factory('productService', productService);
+    app.factory('projectService', projectService);
 
 	//user info
 	app.run(function($rootScope) {

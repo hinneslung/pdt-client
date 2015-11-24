@@ -1,13 +1,13 @@
-function productService() {
+function projectService() {
 	var ps = {};
 
 	ps.processProject = function(originalProject) {
 		var project = originalProject;
 
 		//fix api order
-		var temp = project.phases[2];
-		project.phases[2] = project.phases[1];
-		project.phases[1] = temp;
+		//var temp = project.phases[2];
+		//project.phases[2] = project.phases[1];
+		//project.phases[1] = temp;
 
 		//add title for UI
 		var phaseTitles = ['Inception', 'Elaboration', 'Construction', 'Transition'];
@@ -39,6 +39,7 @@ function productService() {
 			if (project.metrics.phase.hasOwnProperty(phase.phase_type)) {
 				for (var j = 0; j < phase.iterations.length; j++) {
 					var metrics = project.metrics.phase[phase.phase_type][j];
+					if (!metrics)continue;
 					project.phases[i].iterations[j].sloc = metrics.lines_of_codes;
 					project.phases[i].iterations[j].effort = metrics.effort;
 

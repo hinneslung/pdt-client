@@ -1,6 +1,6 @@
 (function() {
     var app = angular.module('pdtDeveloper', []);
-    app.controller('DeveloperController', function($scope, $rootScope, $window, $uibModal, apiService){
+    app.controller('DeveloperController', function($scope, $rootScope, $window, $uibModal, apiService, projectService){
         $scope.self = $scope;
         $scope.navColumnItems = [];//list of projects, also for providing items to navColumn
         $scope.activity = undefined;//activity object
@@ -29,7 +29,7 @@
         $scope.getProject = function(id) {
             apiService.project(id).success(function(data) {
                 console.log(data);
-                data = productService.processProject(data);
+                data = projectService.processProject(data);
                 $scope.project = data;
             });
         };
