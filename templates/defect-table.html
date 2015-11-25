@@ -1,0 +1,18 @@
+<div class="panel-heading">Defects</div>
+<table class="table">
+    <tr>
+        <th>id</th><th>Report Time</th><th>Reporter</th><th>Type</th><th>Description</th>
+        <th>Injection</th>
+        <th></th><th></th>
+    </tr>
+    <tr ng-repeat="defect in defects">
+        <td>{{defect.id}}</td>
+        <td>{{defect.created_dateTime}}</td>
+        <td>{{defect.developer.username}}</td>
+        <td>{{defectService.defectType(defect.defect_type)}}</td>
+        <td>{{defect.description}}</td>
+        <td>{{defect.injection_phase}}, {{defect.injection_iteration}}, {{defectService.activityType(defect.iteration_activity_type)}}</td>
+        <td><a href ng-click="">Edit</a></td>
+        <td><a href ng-click="">Change Log</a></td>
+    </tr>
+</table>

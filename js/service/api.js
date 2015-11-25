@@ -69,9 +69,6 @@ function apiService($http, $rootScope) {
 
 	//-----------------------------------------------------------------------------Iteration
 	api.closeIteration = function(projectId, sloc) {
-		//return $http.delete(apiUrl + 'project/' + projectId + '/iteration/close/', {
-		//	lines_of_codes: sloc
-		//});
 		return $http({ url: apiUrl + 'project/' + projectId + '/iteration/close/',
 			method: 'DELETE',
 			data: {lines_of_codes: sloc},
@@ -103,6 +100,10 @@ function apiService($http, $rootScope) {
 			iteration_activity_type: activityTypeCode,
 			is_shared: isShared
 		});
+	};
+
+	api.defects = function(userType, userId, projectId) {
+		return $http.get(apiUrl + userType + '/' + userId + '/project/' + projectId + '/defect/' + jsonQuery);
 	};
 
     return api;

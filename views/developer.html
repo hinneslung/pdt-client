@@ -29,24 +29,7 @@
 
                     <!--Management-->
                     <div class="panel panel-default" ng-show="activityTypeIndex == 2">
-                        <div class="panel-heading">Defects</div>
-                        <table class="table">
-                            <tr>
-                                <th>id</th><th>Report Time</th><th>Reporter</th><th>Type</th><th>Description</th>
-                                <th>Injection</th>
-                                <th></th><th></th>
-                            </tr>
-                            <tr ng-repeat="defect in project.defects">
-                                <td>{{defect.id}}</td>
-                                <td>{{defect.create_dateTime}}</td>
-                                <td>{{defect.developer.username}}</td>
-                                <td>{{defect.defect_type}}</td>
-                                <td>{{defect.description}}</td>
-                                <td>{{defect.injection_phase}}, {{defect.injection_iteration}}, {{defect.injection_iteration_activity}}</td>
-                                <td><a href ng-click="">Edit</a></td>
-                                <td><a href ng-click="">Change Log</a></td>
-                            </tr>
-                        </table>
+                        <defect-table defects="defects"></defect-table>
                     </div>
                 </div>
 

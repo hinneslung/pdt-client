@@ -1,10 +1,14 @@
 (function() {
     var app = angular.module('pdtDeveloper', []);
-    app.controller('DeveloperController', function($scope, $rootScope, $window, $uibModal, apiService, projectService){
+    app.controller('DeveloperController', function($scope, $rootScope, $window, $uibModal,
+                                                   apiService, projectService, defectService){
         $scope.self = $scope;
+        $scope.defectService = defectService;
+
         $scope.navColumnItems = [];//list of projects, also for providing items to navColumn
         $scope.activity = undefined;//activity object
         $scope.project = {};//project copied from navColumnItems
+        $scope.defects = [];
         $scope.activityTypes = [
 	        {title:'Development', id:0, code:'D'},
 	        {title:'Defect Removal', id:1, code:'R'},
@@ -34,10 +38,19 @@
             });
         };
 
+        $scope.getDefects = function(projectId) {
+            apiService.defects('developer', $rootScope.userId, projectId).success(function(data) {
+                console.log(data);
+                $scope.defects = defectService.processDefects(data);
+            });
+        };
+
         $scope.switchTo = function(project, activityType) {
             console.log(project.id + ' ' +  activityType.id);
 
             $scope.getProject(project.id);
+            if (activityType.code == 'M')
+                $scope.getDefects(project.id);
 
             if ($scope.activity) {
                 apiService.endActivity($rootScope.userId).success(function(data) {
