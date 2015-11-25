@@ -5,19 +5,39 @@
             restrict: 'E',
             templateUrl: "templates/defect-form.html",
             scope: {
-                delegate: '='
+                project: '='
             },
             controller: function($window, $rootScope, $scope, $location, apiService) {
-                $scope.iterations = [];
-
-                $scope.type = "";
+                //form
+                $scope.typeCode = "";
                 $scope.description = "";
-                $scope.phase = "";
-                $scope.activity = "";
+                $scope.iterationId = "";
+                $scope.iterationActivityTypeCode = "";
+                $scope.isShared = false;
+
+                $scope.phaseIndex = "";
+
+                $scope.itemHasStarted = function(item) {
+                    return item.status != 'N';
+                };
+
+                $scope.phaseChanged = function() {
+                    $scope.iterationId = "";
+                };
 
                 $scope.create = function() {
-                    console.log($scope.type + $scope.description + $scope.phase, $scope.activity);
-                    apiService.reportDefect($rootScope.userId);
+                    apiService.reportDefect($rootScope.userId, $scope.typeCode, $scope.description,
+                        $scope.iterationId, $scope.project.active_iteration.id, $scope.iterationActivityTypeCode, $scope.isShared).success(function(data) {
+
+                        $scope.typeCode = "";
+                        $scope.description = "";
+                        $scope.iterationId = "";
+                        $scope.iterationActivityTypeCode = "";
+                        $scope.isShared = false;
+                        $scope.phaseIndex = "";
+
+                        console.log(data);
+                    });
                 };
             }
         };

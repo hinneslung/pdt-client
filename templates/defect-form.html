@@ -8,7 +8,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="type">Defect type</label>
                 <div class="col-md-4">
-                    <select id="type" name="type" class="form-control" ng-model="type">
+                    <select id="type" name="type" class="form-control" ng-model="typeCode" required>
                         <option value="R">Requirements</option>
                         <option value="D">Design</option>
                         <option value="I">Implementation</option>
@@ -29,11 +29,11 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="phase">Phase</label>
                 <div class="col-md-4">
-                    <select id="phase" name="phase" class="form-control" ng-model="phase">
-                        <option value="I">Inception</option>
-                        <option value="E">Elaboration</option>
-                        <option value="C">Construction</option>
-                        <option value="T">Transition</option>
+                    <select id="phase" name="phase" class="form-control" ng-model="phaseIndex" ng-change="phaseChanged()" required>
+                        <option ng-show="itemHasStarted(project.phases[0])" value="0">Inception</option>
+                        <option ng-show="itemHasStarted(project.phases[1])" value="1">Elaboration</option>
+                        <option ng-show="itemHasStarted(project.phases[2])" value="2">Construction</option>
+                        <option ng-show="itemHasStarted(project.phases[3])" value="3">Transition</option>
                     </select>
                 </div>
             </div>
@@ -42,8 +42,11 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="iteration">Iteration</label>
                 <div class="col-md-4">
-                    <select id="iteration" name="iteration" class="form-control" ng-model="iteration">
-                        <option ng-repeat="iteration in iterations" value="{{iteration}}">{{iteration}}</option>
+                    <select id="iteration" name="iteration" class="form-control" ng-model="iterationId" required>
+                        <option ng-repeat="(index, iteration) in project.phases[phaseIndex].iterations"
+                                ng-value="iteration.id">
+                            {{index + 1}}
+                        </option>
                     </select>
                 </div>
             </div>
@@ -52,7 +55,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="activity">Iteration Activity</label>
                 <div class="col-md-4">
-                    <select id="activity" name="activity" class="form-control" ng-model="activity">
+                    <select id="activity" name="activity" class="form-control" ng-model="iterationActivityTypeCode" required>
                         <option value="R">Requirements</option>
                         <option value="D">Design</option>
                         <option value="C">Coding</option>
@@ -64,7 +67,7 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="isShared">Share to other developers</label>
                 <div class="col-md-4">
-                    <input type="checkbox" name="isShared" id="isShared" value="1">
+                    <input type="checkbox" name="isShared" id="isShared" value="1" ng-model="isShared">
                 </div>
             </div>
 

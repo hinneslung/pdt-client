@@ -21,6 +21,7 @@ function projectService() {
 				for (j = 0; j < project.phases[i].iterations.length; j++) {
 					if (project.phases[i].iterations[j].is_active) {
 						project.phases[i].iterations[j].status = 'A';
+						project.active_iteration = project.phases[i].iterations[j];
 					} else
 						project.phases[i].iterations[j].status = project.phases[i].iterations[j].end_dateTime ? 'E' : 'N';
 				}

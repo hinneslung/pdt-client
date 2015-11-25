@@ -23,8 +23,8 @@
                     </div>
 
                     <!--Defect Removal-->
-                    <div class="col-md-12" ng-show="activityTypeIndex == 1">
-                        <defect-form delegate="self"></defect-form>
+                    <div class="col-md-12" ng-if="activityTypeIndex == 1">
+                        <defect-form project="project"></defect-form>
                     </div>
 
                     <!--Management-->
