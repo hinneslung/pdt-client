@@ -91,5 +91,19 @@ function apiService($http, $rootScope) {
 		return $http.delete(apiUrl + 'developer/' + developerId + '/activity/close/');
 	};
 
+	//-----------------------------------------------------------------------------Activity
+	api.reportDefect = function(developerId, typeCode, description,
+								injectedIterationId, removedIterationId, activityTypeCode, isShared) {
+		return $http.post(apiUrl + 'defect/', {
+			developer: developerId,
+			defect_type: typeCode,
+			description: description,
+			injected_in_iteration: injectedIterationId,
+			removed_in_iteration: removedIterationId,
+			iteration_activity_type: activityTypeCode,
+			is_shared: isShared
+		});
+	};
+
     return api;
 }

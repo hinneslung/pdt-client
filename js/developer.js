@@ -50,9 +50,12 @@
                 });
             } else {
                 apiService.startActivity($rootScope.userId, project.id, activityType.code).success(function(data) {
-                    console.log(data);
                     $scope.activityTypeIndex = activityType.id;
+                    data.start_dateTime_js = Date.parse(data.start_dateTime);
                     $scope.activity = data;
+                    console.log(data);
+                    console.log(data.start_dateTime);
+                    console.log(data.start_dateTime_js);
                 });
             }
         };

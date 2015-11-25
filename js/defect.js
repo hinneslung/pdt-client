@@ -17,6 +17,7 @@
 
                 $scope.create = function() {
                     console.log($scope.type + $scope.description + $scope.phase, $scope.activity);
+                    apiService.reportDefect($rootScope.userId);
                 };
             }
         };
