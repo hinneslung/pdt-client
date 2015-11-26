@@ -44,7 +44,7 @@
                 <div class="col-md-4">
                     <select id="iteration" name="iteration" class="form-control" ng-model="iterationId" required>
                         <option ng-repeat="(index, iteration) in project.phases[phaseIndex].iterations"
-                                ng-value="iteration.id">
+                                ng-value="iteration.id" ng-show="itemHasStarted(iteration)">
                             {{ index + 1 }}
                         </option>
                     </select>

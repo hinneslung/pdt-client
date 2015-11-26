@@ -3,7 +3,7 @@
     <tr>
         <th>id</th><th>Report Time</th><th>Reporter</th><th>Type</th><th>Description</th>
         <th>Injection</th>
-        <th></th><th></th>
+        <th></th>
     </tr>
     <tr ng-repeat="defect in defects">
         <td>{{defect.id}}</td>
@@ -12,7 +12,6 @@
         <td>{{defectService.defectType(defect.defect_type)}}</td>
         <td>{{defect.description}}</td>
         <td>{{defect.injection_phase}}, {{defect.injection_iteration}}, {{defectService.activityType(defect.iteration_activity_type)}}</td>
-        <td><a href ng-click="">Edit</a></td>
-        <td><a href ng-click="">Change Log</a></td>
+        <td><a href ng-click="delegate.defectTableEditDefect(defect)">Edit</a></td>
     </tr>
 </table>

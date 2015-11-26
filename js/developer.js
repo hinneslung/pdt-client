@@ -16,6 +16,10 @@
         ];
 	    $scope.activityTypeIndex = undefined;
 
+        //for editing defect
+        $scope.isEditingDefect = false;
+        $scope.defectBeingEdited = undefined;
+
         $scope.createProject = function(){
             $location.path('projectmanager/createproject');
         };
@@ -69,6 +73,17 @@
                     console.log(data);
                 });
             }
+        };
+
+        //defect form delegate
+        $scope.defectTableEditDefect = function(defect) {
+            console.log(defect.id);
+            $scope.defectBeingEdited = defect;
+            $scope.isEditingDefect = true;
+        };
+        $scope.defectFormFinishEditing = function() {
+            $scope.defectBeingEdited = undefined;
+            $scope.isEditingDefect = false;
         };
 
         //nav bar delegate

@@ -29,7 +29,8 @@
 
                     <!--Management-->
                     <div class="panel panel-default" ng-show="activityTypeIndex == 2">
-                        <defect-table defects="defects"></defect-table>
+                        <defect-table defects="defects" delegate="self" ng-show="!isEditingDefect"></defect-table>
+                        <defect-form project="project" defect="defectBeingEdited" delegate="self" ng-if="isEditingDefect"></defect-form>
                     </div>
                 </div>
 

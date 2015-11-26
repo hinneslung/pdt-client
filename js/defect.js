@@ -6,7 +6,8 @@
             restrict: 'E',
             templateUrl: "templates/defect-table.html",
             scope: {
-                defects: '='
+                defects: '=',
+                delegate: '='
             },
             controller: function($window, $rootScope, $scope, $location, apiService) {
 
@@ -19,17 +20,33 @@
             restrict: 'E',
             templateUrl: "templates/defect-form.html",
             scope: {
-                project: '='
+                project: '=',
+                defect: '=',
+                delegate: '='
             },
             controller: function($window, $rootScope, $scope, $location, apiService) {
-                //form
-                $scope.typeCode = "";
-                $scope.description = "";
-                $scope.iterationId = "";
-                $scope.iterationActivityTypeCode = "";
-                $scope.isShared = false;
+                if ($scope.defect) {
+                    $scope.typeCode = $scope.defect.defect_type;
+                    $scope.description = $scope.defect.description;
+                    $scope.iterationId = $scope.defect.injected_in_iteration.id;
+                    $scope.iterationActivityTypeCode = $scope.defect.iteration_activity_type;
+                    $scope.isShared = $scope.defect.is_shared;
 
-                $scope.phaseIndex = "";
+                    $scope.phaseIndex = "";//TODO
+
+                    $scope.reportedIterationId = $scope.defect.removed_in_iteration.id;
+                } else {
+                    //form
+                    $scope.typeCode = "";
+                    $scope.description = "";
+                    $scope.iterationId = "";
+                    $scope.iterationActivityTypeCode = "";
+                    $scope.isShared = false;
+
+                    $scope.phaseIndex = "";
+
+                    $scope.reportedIterationId = $scope.project.active_iteration.id;
+                }
 
                 $scope.itemHasStarted = function(item) {
                     return item.status != 'N';
@@ -40,18 +57,29 @@
                 };
 
                 $scope.create = function() {
-                    apiService.reportDefect($rootScope.userId, $scope.typeCode, $scope.description,
-                        $scope.iterationId, $scope.project.active_iteration.id, $scope.iterationActivityTypeCode, $scope.isShared).success(function(data) {
+                    if ($scope.defect) {
+                        apiService.sendDefect($rootScope.userId, $scope.typeCode, $scope.description,
+                            $scope.iterationId, $scope.reportedIterationId, $scope.iterationActivityTypeCode, $scope.isShared, $scope.defect.id).success(function(data) {
+                            $scope.clearForm();
+                            $scope.delegate.defectFormFinishEditing();
+                            console.log(data);
+                        });
+                    } else {
+                        apiService.sendDefect($rootScope.userId, $scope.typeCode, $scope.description,
+                            $scope.iterationId, $scope.reportedIterationId, $scope.iterationActivityTypeCode, $scope.isShared, undefined).success(function(data) {
+                            $scope.clearForm();
+                            console.log(data);
+                        });
+                    }
+                };
 
-                        $scope.typeCode = "";
-                        $scope.description = "";
-                        $scope.iterationId = "";
-                        $scope.iterationActivityTypeCode = "";
-                        $scope.isShared = false;
-                        $scope.phaseIndex = "";
-
-                        console.log(data);
-                    });
+                $scope.clearForm = function() {
+                    $scope.typeCode = "";
+                    $scope.description = "";
+                    $scope.iterationId = "";
+                    $scope.iterationActivityTypeCode = "";
+                    $scope.isShared = false;
+                    $scope.phaseIndex = "";
                 };
             }
         };

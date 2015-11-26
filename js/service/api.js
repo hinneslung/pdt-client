@@ -89,6 +89,20 @@ function apiService($http, $rootScope) {
 	};
 
 	//-----------------------------------------------------------------------------Activity
+	api.sendDefect = function(developerId, typeCode, description,
+								injectedIterationId, removedIterationId, activityTypeCode, isShared, idBeingEdited) {
+		var defect = {
+			developer: developerId,
+			defect_type: typeCode,
+			description: description,
+			injected_in_iteration: injectedIterationId,
+			removed_in_iteration: removedIterationId,
+			iteration_activity_type: activityTypeCode,
+			is_shared: isShared
+		};
+		return idBeingEdited == undefined ? $http.post(apiUrl + 'defect/', defect) : $http.put(apiUrl + 'defect/' + idBeingEdited + '/', defect);
+	};
+
 	api.reportDefect = function(developerId, typeCode, description,
 								injectedIterationId, removedIterationId, activityTypeCode, isShared) {
 		return $http.post(apiUrl + 'defect/', {
