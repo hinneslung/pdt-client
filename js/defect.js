@@ -96,16 +96,24 @@
     });
 })();
 
-function defectService() {
+function defectService(projectService) {
     var ds = {};
 
     ds.processDefects = function(defects, project) {
 
         var metrics = project.metrics;
 
-
         for (var i = 0; i < defects.length; i++) {
-
+            console.log(defects[i].id);
+            if (defects[i].removed_in_iteration.id == project.last_iteration.id) {
+                var phaseIndex = projectService.phaseIndexFromCode(defects[i].injected_in_iteration.phase.phase_type);
+                var iterationIndex = defects[i].injected_in_iteration.index;
+                console.log(phaseIndex + ' ' + iterationIndex);
+                if (project.phases[phaseIndex].iterations[iterationIndex - 1].num_defects_removed_in_last_iteration)
+                    project.phases[phaseIndex].iterations[iterationIndex - 1].num_defects_removed_in_last_iteration++;
+                else
+                    project.phases[phaseIndex].iterations[iterationIndex - 1].num_defects_removed_in_last_iteration = 1;
+            }
         }
 
         return defects;
