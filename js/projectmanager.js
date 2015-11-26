@@ -31,9 +31,8 @@
 				apiService.defects('projectmanager', $rootScope.userId, data.id).success(function(data2) {
 					console.log(data2);
 					$scope.defects = defectService.processDefects(data2, data);
+					console.log(data);
 				});
-
-				console.log(data);
 			});
 		};
 

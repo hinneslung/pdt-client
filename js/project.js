@@ -31,6 +31,11 @@ function projectService() {
 					project.phases[i].iterations[j].status = project.phases[i].iterations[j].end_dateTime ? 'E' : 'N';
 			}
 		}
+		if (project.end_dateTime)
+			project.status = 'E'
+		else
+			project.status = project.start_dateTime ? 'A' : 'N';
+
 		project.last_iteration = project.phases[project.phases.length - 1].iterations[project.phases[project.phases.length - 1].iterations.length - 1];
 
 		//metrics
@@ -42,13 +47,13 @@ function projectService() {
 					if (!metrics)continue;
 					project.phases[i].iterations[j].sloc = metrics.lines_of_codes;
 					project.phases[i].iterations[j].effort = metrics.effort;
-					project.phases[i].iterations[j].numberOfdefectsRemoved = metrics.num_removed_defects;
-					project.phases[i].iterations[j].numberOfDefectsInjected = metrics.num_injected_defects;
+					project.phases[i].iterations[j].num_defects_removed = metrics.num_removed_defects;
+					project.phases[i].iterations[j].num_defects_injected = metrics.num_injected_defects;
 				}
 				project.phases[i].effort = project.metrics.phase[phase.phase_type].effort;
 				project.phases[i].sloc = project.metrics.phase[phase.phase_type].lines_of_codes;
-				project.phases[i].numberOfdefectsRemoved = project.metrics.phase[phase.phase_type].num_removed_defects;
-				project.phases[i].numberOfDefectsInjected = project.metrics.phase[phase.phase_type].num_injected_defects;
+				project.phases[i].num_defects_removed = project.metrics.phase[phase.phase_type].num_removed_defects;
+				project.phases[i].num_defects_injected = project.metrics.phase[phase.phase_type].num_injected_defects;
 
 				if (project.phases[i].sloc > 0)
 					project.sloc = project.phases[i].sloc;
@@ -56,28 +61,15 @@ function projectService() {
 		}
 
 		project.effort= project.metrics.effort;
-		project.numberOfdefectsRemoved = project.metrics.num_removed_defects;
-		project.numberOfDefectsInjected = project.metrics.num_injected_defects;
-
-		//yields
-		for (i = 0; i < 4; i++) {
-			var phase = project.phases[i];
-			if (project.metrics.phase.hasOwnProperty(phase.phase_type)) {
-				for (var j = 0; j < phase.iterations.length; j++) {
-					var metrics = project.metrics.phase[phase.phase_type].iteration[j];
-					if (!metrics)continue;
-					project.phases[i].iterations[j].sloc = metrics.lines_of_codes;
-					project.phases[i].iterations[j].effort = metrics.effort;
-				}
-				project.phases[i].effort = project.metrics.phase[phase.phase_type].effort;
-				project.phases[i].sloc = project.metrics.phase[phase.phase_type].lines_of_codes;
-			}
-		}
+		project.num_defects_removed = project.metrics.num_removed_defects;
+		project.num_defects_injected = project.metrics.num_injected_defects;
 
 		return project;
 	};
 
 	ps.status = function(item) {
+		if (!item)
+			return '';
 		switch(item.status) {
 			case 'N':
 				return 'Not Started';

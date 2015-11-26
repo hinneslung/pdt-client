@@ -38,7 +38,6 @@
 
                     $scope.phaseIndex = projectService.phaseIndexFromCode($scope.defect.injected_in_iteration.phase.phase_type);
                     $scope.iterationId = $scope.defect.injected_in_iteration.id + 0;
-                    console.log('iteration id ' + $scope.iterationId);
 
                     $scope.removedIterationId = $scope.defect.removed_in_iteration.id;
                 } else {
@@ -103,12 +102,14 @@ function defectService(projectService) {
 
         var metrics = project.metrics;
 
+        defects.sort(function(a, b){
+            return new Date(b.created_dateTime) - new Date(a.created_dateTime);
+        });
+
         for (var i = 0; i < defects.length; i++) {
-            console.log(defects[i].id);
             if (defects[i].removed_in_iteration.id == project.last_iteration.id) {
                 var phaseIndex = projectService.phaseIndexFromCode(defects[i].injected_in_iteration.phase.phase_type);
                 var iterationIndex = defects[i].injected_in_iteration.index;
-                console.log(phaseIndex + ' ' + iterationIndex);
                 if (project.phases[phaseIndex].iterations[iterationIndex - 1].num_defects_removed_in_last_iteration)
                     project.phases[phaseIndex].iterations[iterationIndex - 1].num_defects_removed_in_last_iteration++;
                 else
@@ -116,14 +117,40 @@ function defectService(projectService) {
             }
         }
 
+	    var percentage = 1/(project.percentage/100) - 1;
+	    var currentDefectsNumber = 0;
+	    var currentPhaseDefectsNumber = 0;
+	    for (i = 0; i < project.phases.length; i++) {
+		    var totalPhaseDefectsInjected = 0;
+		    var totalPhaseDefectsRemoved = 0;
+		    for (var j = 0; j < project.phases[i].iterations.length; j++) {
+			    var iteration = project.phases[i].iterations[j];
+			    var number = iteration.num_defects_removed_in_last_iteration;
+			    if (number)
+				    project.phases[i].iterations[j].escaped = number * percentage;
+			    project.phases[i].iterations[j].total_defects_injected = number * percentage + iteration.num_defects_injected;
+
+			    //calculate yield for this iteration
+			    currentDefectsNumber += iteration.total_defects_injected;
+			    project.phases[i].iterations[j].yield = iteration.num_defects_removed / currentDefectsNumber;
+			    currentDefectsNumber -= iteration.num_defects_removed;
+
+			    //for phase yield calculation
+			    totalPhaseDefectsInjected += project.phases[i].iterations[j].total_defects_injected;
+			    totalPhaseDefectsRemoved += project.phases[i].iterations[j].num_defects_removed;
+		    }
+		    //calculate yield for this phase
+		    currentPhaseDefectsNumber += totalPhaseDefectsInjected;
+		    project.phases[i].yield = totalPhaseDefectsRemoved / currentPhaseDefectsNumber;
+		    currentPhaseDefectsNumber -= totalPhaseDefectsRemoved;
+
+		    project.phases[i].total_defects_injected = totalPhaseDefectsInjected;
+		    project.phases[i].num_defects_removed = totalPhaseDefectsRemoved;
+	    }
+
+
         return defects;
     };
-
-    ds.yield = function(removed, total) {
-
-    };
-
-    //percentage = 1/percentage - 1
 
     ds.iterationActivityFromType = function(type) {
         switch (type) {
