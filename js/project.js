@@ -33,24 +33,23 @@ function projectService() {
 		}
 
 		//metrics
-		project.effort = 0;
 		for (i = 0; i < 4; i++) {
 			var phase = project.phases[i];
 			project.phases[i].effort = 0;
 			if (project.metrics.phase.hasOwnProperty(phase.phase_type)) {
 				for (var j = 0; j < phase.iterations.length; j++) {
-					var metrics = project.metrics.phase[phase.phase_type][j];
+					var metrics = project.metrics.phase[phase.phase_type].iteration[j];
 					if (!metrics)continue;
 					project.phases[i].iterations[j].sloc = metrics.lines_of_codes;
 					project.phases[i].iterations[j].effort = metrics.effort;
-
-					project.phases[i].sloc = metrics.lines_of_codes;
-					project.phases[i].effort += metrics.effort;
 				}
-				project.sloc = project.phases[i].sloc;
-				project.effort += project.phases[i].effort;
+				project.phases[i].effort = project.metrics.phase[phase.phase_type].effort;
+				project.phases[i].sloc = project.metrics.phase[phase.phase_type].lines_of_codes;
 			}
 		}
+
+		project.effort= project.metrics.effort;
+		project.sloc = project.metrics.lines_of_codes;
 
 		return project;
 	};
@@ -65,6 +64,36 @@ function projectService() {
 				return 'Ended';
 			default:
 				return 'ERROR';
+		}
+	};
+
+	ps.phaseFromType = function(type) {
+		switch (type) {
+			case 'I':
+				return 'Inception';
+			case 'E':
+				return 'Elaboration';
+			case 'C':
+				return 'Construction';
+			case 'T':
+				return 'Transition';
+			default:
+				return 'ERROR';
+		}
+	};
+
+	ps.phaseIndexFromCode = function(type) {
+		switch (type) {
+			case 'I':
+				return '0';
+			case 'E':
+				return '1';
+			case 'C':
+				return '2';
+			case 'T':
+				return '3';
+			default:
+				return 500;
 		}
 	};
 

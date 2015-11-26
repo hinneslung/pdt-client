@@ -42,11 +42,13 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="iteration">Iteration</label>
                 <div class="col-md-4">
-                    <select id="iteration" name="iteration" class="form-control" ng-model="iterationId" required>
-                        <option ng-repeat="(index, iteration) in project.phases[phaseIndex].iterations"
-                                ng-value="iteration.id" ng-show="itemHasStarted(iteration)">
-                            {{ index + 1 }}
-                        </option>
+                    <select id="iteration" name="iteration" class="form-control" ng-model="iterationId"
+                            ng-options="iteration.id as iteration.index for iteration in project.phases[phaseIndex].iterations | filter: itemHasStarted" required>
+                        <!--<option ng-repeat="(index, iteration) in project.phases[phaseIndex].iterations"-->
+                                <!--ng-value="iteration.id" ng-show="itemHasStarted(iteration)">-->
+                            <!--{{ index + 1 }}-->
+                        <!--</option>-->
+                        <!--<option ng-show="itemHasStarted(iteration)"></option>-->
                     </select>
                 </div>
             </div>
@@ -74,7 +76,8 @@
             <br>
 
             <div class="col-md-4 col-md-offset-4">
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+                <button class="btn btn-lg btn-primary btn-block btn-warning" type="submit" ng-click="cancel();" ng-show="defect">Cancel</button>
             </div>
         </fieldset>
     </form>

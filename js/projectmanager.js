@@ -2,11 +2,12 @@
     var app = angular.module('pdtProjectManager', []);
 
     app.controller('ProjectManagerController', function($scope, $rootScope, $location,
-                                                        apiService, modalService, projectService){
+                                                        apiService, modalService, projectService, defectService){
         $scope.self = $scope;
 	    $scope.projectService = projectService;
 	    $scope.navColumnItems = [];
 	    $scope.project = {};
+		$scope.defects = [];
 
         $scope.createProject = function(){
             $location.path('projectmanager/createproject');
@@ -25,9 +26,18 @@
 
 		$scope.getProject = function(id) {
 			apiService.project(id).success(function(data) {
-				console.log(data);
 				data = projectService.processProject(data);
 				$scope.project = data;
+				$scope.getDefects(data.id);
+
+				console.log(data);
+			});
+		};
+
+		$scope.getDefects = function(projectId) {
+			apiService.defects('projectmanager', $rootScope.userId, projectId).success(function(data) {
+				console.log(data);
+				$scope.defects = defectService.processDefects(data);
 			});
 		};
 
