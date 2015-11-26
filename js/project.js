@@ -31,11 +31,37 @@ function projectService() {
 					project.phases[i].iterations[j].status = project.phases[i].iterations[j].end_dateTime ? 'E' : 'N';
 			}
 		}
+		project.last_iteration = project.phases[project.phases.length - 1].iterations[project.phases[project.phases.length - 1].iterations.length - 1];
 
 		//metrics
 		for (i = 0; i < 4; i++) {
 			var phase = project.phases[i];
-			project.phases[i].effort = 0;
+			if (project.metrics.phase.hasOwnProperty(phase.phase_type)) {
+				for (var j = 0; j < phase.iterations.length; j++) {
+					var metrics = project.metrics.phase[phase.phase_type].iteration[j];
+					if (!metrics)continue;
+					project.phases[i].iterations[j].sloc = metrics.lines_of_codes;
+					project.phases[i].iterations[j].effort = metrics.effort;
+					project.phases[i].iterations[j].numberOfdefectsRemoved = metrics.num_removed_defects;
+					project.phases[i].iterations[j].numberOfDefectsInjected = metrics.num_injected_defects;
+				}
+				project.phases[i].effort = project.metrics.phase[phase.phase_type].effort;
+				project.phases[i].sloc = project.metrics.phase[phase.phase_type].lines_of_codes;
+				project.phases[i].numberOfdefectsRemoved = project.metrics.phase[phase.phase_type].num_removed_defects;
+				project.phases[i].numberOfDefectsInjected = project.metrics.phase[phase.phase_type].num_injected_defects;
+
+				if (project.phases[i].sloc > 0)
+					project.sloc = project.phases[i].sloc;
+			}
+		}
+
+		project.effort= project.metrics.effort;
+		project.numberOfdefectsRemoved = project.metrics.num_removed_defects;
+		project.numberOfDefectsInjected = project.metrics.num_injected_defects;
+
+		//yields
+		for (i = 0; i < 4; i++) {
+			var phase = project.phases[i];
 			if (project.metrics.phase.hasOwnProperty(phase.phase_type)) {
 				for (var j = 0; j < phase.iterations.length; j++) {
 					var metrics = project.metrics.phase[phase.phase_type].iteration[j];
@@ -48,16 +74,13 @@ function projectService() {
 			}
 		}
 
-		project.effort= project.metrics.effort;
-		project.sloc = project.metrics.lines_of_codes;
-
 		return project;
 	};
 
 	ps.status = function(item) {
 		switch(item.status) {
 			case 'N':
-				return 'Not Started'
+				return 'Not Started';
 			case 'A':
 				return 'Active';
 			case 'E':

@@ -45,7 +45,7 @@
         $scope.getDefects = function(projectId) {
             apiService.defects('developer', $rootScope.userId, projectId).success(function(data) {
                 console.log(data);
-                $scope.defects = defectService.processDefects(data);
+                $scope.defects = data;
             });
         };
 

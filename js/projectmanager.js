@@ -28,16 +28,12 @@
 			apiService.project(id).success(function(data) {
 				data = projectService.processProject(data);
 				$scope.project = data;
-				$scope.getDefects(data.id);
+				apiService.defects('projectmanager', $rootScope.userId, data.id).success(function(data2) {
+					console.log(data2);
+					$scope.defects = defectService.processDefects(data2, data);
+				});
 
 				console.log(data);
-			});
-		};
-
-		$scope.getDefects = function(projectId) {
-			apiService.defects('projectmanager', $rootScope.userId, projectId).success(function(data) {
-				console.log(data);
-				$scope.defects = defectService.processDefects(data);
 			});
 		};
 
@@ -53,6 +49,7 @@
 
 	    $scope.closeIteration = function(params) {
 		    console.log($scope.project.id + ' ' + params.sloc);
+			if (!params.sloc)return;
 		    apiService.closeIteration($scope.project.id, params.sloc).success(function(data) {
 			    $scope.getProject($scope.project.id);
 		    });

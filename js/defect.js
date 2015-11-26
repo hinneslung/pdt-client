@@ -99,14 +99,23 @@
 function defectService() {
     var ds = {};
 
-    ds.processDefects = function(defects) {
-        //defects = defects.my_defects.concat(defects.shared_defects);
-        //defects.sort(function(a, b){
-        //    return new Date(b.created_dateTime) - new Date(a.created_dateTime);
-        //});
+    ds.processDefects = function(defects, project) {
+
+        var metrics = project.metrics;
+
+
+        for (var i = 0; i < defects.length; i++) {
+
+        }
 
         return defects;
     };
+
+    ds.yield = function(removed, total) {
+
+    };
+
+    //percentage = 1/percentage - 1
 
     ds.iterationActivityFromType = function(type) {
         switch (type) {
