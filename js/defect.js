@@ -120,6 +120,7 @@ function defectService(projectService) {
 	    var percentage = 1/(project.percentage/100) - 1;
 	    var currentDefectsNumber = 0;
 	    var currentPhaseDefectsNumber = 0;
+        project.total_defects_injected = 0;
 	    for (i = 0; i < project.phases.length; i++) {
 		    var totalPhaseDefectsInjected = 0;
 		    var totalPhaseDefectsRemoved = 0;
@@ -146,7 +147,11 @@ function defectService(projectService) {
 
 		    project.phases[i].total_defects_injected = totalPhaseDefectsInjected;
 		    project.phases[i].num_defects_removed = totalPhaseDefectsRemoved;
+
+		    //for project yield
+		    project.total_defects_injected += totalPhaseDefectsInjected;
 	    }
+	    project.yield = project.num_defects_removed/ project.total_defects_injected;
 
 
         return defects;
