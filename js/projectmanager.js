@@ -16,7 +16,7 @@
 	    $scope.getProjects = function() {
 		    apiService.projectManager($rootScope.userId).success(function(data) {
 			    console.log(data);
-				$scope.navColumnItems = data.projects;
+				$scope.navColumnItems = projectService.processProjects(data.projects);
 				if (data.projects.length > 0)
 					$scope.getProject(data.projects[0].id);
 				else

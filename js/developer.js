@@ -27,10 +27,9 @@
         $scope.getProjects = function() {
             apiService.developer($rootScope.userId).success(function(data) {
                 console.log(data);
-	            $scope.navColumnItems = data.projects;
+	            $scope.navColumnItems = projectService.processProjects(data.projects);
 	            for (var i = 0; i < $scope.navColumnItems.length; i++)
 		            $scope.navColumnItems[i].dropdownItems = $scope.activityTypes;
-	            console.log($scope.navColumnItems);
             });
         };
 

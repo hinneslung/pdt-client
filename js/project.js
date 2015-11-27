@@ -1,6 +1,13 @@
 function projectService() {
 	var ps = {};
 
+	ps.processProjects = function(projects) {
+		projects.sort(function(a, b){
+			return new Date(b.id) - new Date(a.id);
+		});
+		return projects
+	};
+
 	ps.processProject = function(originalProject) {
 		var project = originalProject;
 
