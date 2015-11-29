@@ -46,21 +46,29 @@ function projectService() {
 		project.last_iteration = project.phases[project.phases.length - 1].iterations[project.phases[project.phases.length - 1].iterations.length - 1];
 
 		//metrics
+		var lastSloc = 0;
+		var phaseLastSloc = 0;
 		for (i = 0; i < 4; i++) {
 			var phase = project.phases[i];
 			if (project.metrics.phase.hasOwnProperty(phase.phase_type)) {
 				for (var j = 0; j < phase.iterations.length; j++) {
 					var metrics = project.metrics.phase[phase.phase_type].iteration[j];
 					if (!metrics)continue;
-					project.phases[i].iterations[j].sloc = metrics.lines_of_codes;
 					project.phases[i].iterations[j].effort = metrics.effort;
 					project.phases[i].iterations[j].num_defects_removed = metrics.num_removed_defects;
 					project.phases[i].iterations[j].num_defects_injected = metrics.num_injected_defects;
+
+					project.phases[i].iterations[j].additional_sloc = metrics.lines_of_codes - lastSloc;
+					project.phases[i].iterations[j].sloc = metrics.lines_of_codes;
+					lastSloc = metrics.lines_of_codes;
 				}
 				project.phases[i].effort = project.metrics.phase[phase.phase_type].effort;
-				project.phases[i].sloc = project.metrics.phase[phase.phase_type].lines_of_codes;
 				project.phases[i].num_defects_removed = project.metrics.phase[phase.phase_type].num_removed_defects;
 				project.phases[i].num_defects_injected = project.metrics.phase[phase.phase_type].num_injected_defects;
+
+				project.phases[i].sloc = project.metrics.phase[phase.phase_type].lines_of_codes;
+				project.phases[i].additional_sloc = project.metrics.phase[phase.phase_type].lines_of_codes - phaseLastSloc;
+				phaseLastSloc = project.metrics.phase[phase.phase_type].lines_of_codes;
 
 				if (project.phases[i].sloc > 0)
 					project.sloc = project.phases[i].sloc;

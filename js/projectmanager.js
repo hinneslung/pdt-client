@@ -83,6 +83,7 @@
 
 		$scope.phases = ['inception', 'elaboration', 'construction', 'transition'];
 		$scope.iterationNumbers = [];
+		$scope.defectPercentage = 80;
 
 		$scope.getDevelopers = function() {
 			apiService.developers().success(function(data) {
@@ -92,7 +93,7 @@
 
 		$scope.create = function() {
 			console.log($rootScope.userId, $scope.title + $scope.description + $scope.selectedDevelopers + $scope.iterationNumbers);
-			apiService.createProject($rootScope.userId, $scope.title, $scope.description, $scope.selectedDevelopers, $scope.iterationNumbers)
+			apiService.createProject($rootScope.userId, $scope.title, $scope.description, $scope.selectedDevelopers, $scope.iterationNumbers, $scope.defectPercentage)
 				.success(function(data) {
 					console.log(data);
 					$location.path("projectmanager");

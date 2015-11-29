@@ -41,7 +41,7 @@ function apiService($http, $rootScope) {
 		return $http.get(apiUrl + 'project/' + id + '/' + jsonQuery);
 	};
 
-	api.createProject = function(managerId, title, description, developerIds, iterationNumbers) {
+	api.createProject = function(managerId, title, description, developerIds, iterationNumbers, defectPercentage) {
 		return $http.post(apiUrl + 'project/', {
 			title: title,
 			description: description,
@@ -52,7 +52,8 @@ function apiService($http, $rootScope) {
 				E: iterationNumbers[1],
 				C: iterationNumbers[2],
 				T: iterationNumbers[3]
-			}
+			},
+			percentage: defectPercentage
 		});
 	};
 
@@ -69,6 +70,13 @@ function apiService($http, $rootScope) {
 
 	//-----------------------------------------------------------------------------Iteration
 	api.closeIteration = function(projectId, sloc) {
+		return $http({ url: apiUrl + 'project/' + projectId + '/iteration/close/',
+			method: 'DELETE',
+			data: {lines_of_codes: sloc},
+			headers: {"Content-Type": "application/json;charset=utf-8"}
+		})
+	};
+	api.addIteration = function(projectId, sloc) {
 		return $http({ url: apiUrl + 'project/' + projectId + '/iteration/close/',
 			method: 'DELETE',
 			data: {lines_of_codes: sloc},
