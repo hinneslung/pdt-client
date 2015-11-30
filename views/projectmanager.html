@@ -138,8 +138,8 @@
                             <tr ng-repeat="(iterationIndex, iteration) in phase.iterations">
                                 <td>{{iterationIndex + 1}}</td>
                                 <td>{{iteration.num_defects_removed}}</td>
-                                <td>{{iteration.total_defects_injected}}</td>
-                                <td>{{iteration.escaped}}</td>
+                                <td>{{iteration.total_defects_injected | number: 2}}</td>
+                                <td>{{iteration.escaped | number: 2}}</td>
                                 <td>{{iteration.yield | percentage: 2}}</td>
                                 <td>{{iteration.total_defects_injected / iteration.effort | number:2}}</td>
                                 <td>{{iteration.num_defects_removed / iteration.effort | number:2}}</td>

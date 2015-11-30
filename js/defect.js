@@ -140,9 +140,9 @@ function defectService(projectService) {
 		    for (var j = 0; j < project.phases[i].iterations.length; j++) {
 			    var iteration = project.phases[i].iterations[j];
 			    var number = iteration.num_defects_removed_in_last_iteration;
-			    if (number)
-				    project.phases[i].iterations[j].escaped = number * percentage;
-			    project.phases[i].iterations[j].total_defects_injected = number * percentage + iteration.num_defects_injected;
+			    project.phases[i].iterations[j].escaped = number ? number * percentage : 0;
+			    var total = project.phases[i].iterations[j].escaped + iteration.num_defects_injected;
+                project.phases[i].iterations[j].total_defects_injected = total;
 
 			    //calculate yield for this iteration
 			    currentDefectsNumber += iteration.total_defects_injected;
