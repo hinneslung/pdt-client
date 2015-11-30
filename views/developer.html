@@ -12,8 +12,9 @@
 
                 <button type="button" class="btn btn-default btn-md" ng-click="stopActivity();" ng-show="activity">
                     <span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Stop Activity
-                    <timer start-time="activity.start_dateTime">{{hhours}}:{{mminutes}}:{{sseconds}}
+                    <timer start-time="activity.localStartTime">{{hhours}}:{{mminutes}}:{{sseconds}}
                     </timer>
+                    <!--{{timer.hour}}:{{timer.minute}}:{{timer.second}}-->
                 </button>
 
                 <div class="row">

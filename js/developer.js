@@ -20,6 +20,8 @@
         $scope.isEditingDefect = false;
         $scope.defectBeingEdited = undefined;
 
+        $scope.timer = {hour:0, minute:0, second:0};
+
         $scope.createProject = function(){
             $location.path('projectmanager/createproject');
         };
@@ -76,9 +78,23 @@
 		    apiService.startActivity($rootScope.userId, project.id, activityType.code).success(function(data) {
 			    $scope.activityTypeIndex = activityType.id;
 			    $scope.activity = data;
+                $scope.activity.localStartTime = new Date();
 			    console.log(data);
 		    });
 	    };
+
+        $scope.updateTimer = function() {
+            if (!$scope.activity)return;
+            var now = new Date();
+            var timeDiff = Math.abs(now.getTime() - $scope.activity.localStartTime.getTime());
+            var diffHours = Math.floor(timeDiff / (1000 * 3600));
+            var diffMinutes = Math.floor(timeDiff / (1000 * 60)) - diffHours * 60;
+            var diffSeconds = Math.floor(timeDiff / (1000)) - diffHours * 3600 - diffMinutes * 60;
+            $scope.timer.hour = diffHours;
+            $scope.timer.minute = diffMinutes;
+            $scope.timer.second = diffSeconds;
+            $scope.$apply();
+        };
 
         //defect form delegate
         $scope.defectTableEditDefect = function(defect) {
@@ -134,5 +150,6 @@
 
         //run time
         $scope.getProjects();
+        setInterval($scope.updateTimer, 250);
     });
 })();
