@@ -24,7 +24,7 @@
 
         $scope.login = function() {
 	        console.log($scope.username + " " + $scope.password);
-	        if ($scope.username === 'admin') {
+	        if ($scope.username === 'admin' && $scope.password === 'admin') {
 		        localStorage.setItem('userType', 'admin');
 		        localStorage.setItem('userId', 0);
 		        $rootScope.userType = 'admin';

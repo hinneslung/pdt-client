@@ -102,15 +102,13 @@
                         <table class="table">
                             <tr>
                                 <th>Removed</th>
-                                <th>Injected</th>
-                                <th>Total</th><th>Yield</th>
+                                <th>Injected</th><th>Yield</th>
                                 <th>Injection Rate</th><th>Removal Rate</th>
                                 <th>Density</th>
                             </tr>
                             <tr>
                                 <td>{{project.num_defects_removed}}</td>
-                                <td>{{project.num_defects_injected}}</td>
-                                <td>{{project.total_defects_injected}}</td>
+                                <td>{{project.total_defects_injected | number: 2}}</td>
                                 <td>{{project.yield | percentage: 2}}</td>
                                 <td>{{project.total_defects_injected / project.effort | number:2}}</td>
                                 <td>{{project.num_defects_removed / project.effort | number:2}}</td>
@@ -148,7 +146,7 @@
                             <tr style="background-color:lightgray">
                                 <td><b>Phase</b></td>
                                 <td>{{phase.num_defects_removed}}</td>
-                                <td>{{phase.total_defects_injected}}</td>
+                                <td>{{phase.total_defects_injected | number:2}}</td>
                                 <td></td>
                                 <td>{{phase.yield | percentage: 2}}</td>
                                 <td>{{phase.total_defects_injected / phase.effort | number:2}}</td>
