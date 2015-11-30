@@ -21,6 +21,21 @@
 			$location.path("admin/createuser");
         };
 
+		$scope.resetDeveloperPassword = function(id) {
+			$scope.resetPassword('developer', id);
+		};
+
+		$scope.resetManagerPassword = function(id) {
+			$scope.resetPassword('projectmanager', id);
+		};
+
+		$scope.resetPassword = function(type, id) {
+			apiService.resetPassword(type, id).success(function(data){
+				console.log(data);
+				alert("New password: " + data.new_password);
+			});
+		};
+
 		$scope.getUsers();
 	});
 

@@ -28,8 +28,14 @@
             apiService.developer($rootScope.userId).success(function(data) {
                 console.log(data);
 	            $scope.navColumnItems = projectService.processProjects(data.projects);
-	            for (var i = 0; i < $scope.navColumnItems.length; i++)
-		            $scope.navColumnItems[i].dropdownItems = $scope.activityTypes;
+	            for (var i = 0; i < $scope.navColumnItems.length; i++) {
+		            if ($scope.navColumnItems[i].is_active)
+			            $scope.navColumnItems[i].dropdownItems = $scope.activityTypes;
+		            else
+		                $scope.navColumnItems[i].title += " (Ended)";
+	            }
+
+
             });
         };
 
@@ -57,22 +63,22 @@
 
             if ($scope.activity) {
                 apiService.endActivity($rootScope.userId).success(function(data) {
-                    console.log(data);
-                    apiService.startActivity($rootScope.userId, project.id, activityType.code).success(function(data) {
-                        console.log(data);
-                        $scope.activityTypeIndex = activityType.id;
-                        $scope.activity = data;
-                    });
+	                $scope.startActivity(project, activityType);
+                }).error(function(data) {
+	                $scope.startActivity(project, activityType);
                 });
             } else {
-                apiService.startActivity($rootScope.userId, project.id, activityType.code).success(function(data) {
-                    $scope.activityTypeIndex = activityType.id;
-                    //data.start_dateTime_js = Date.parse(data.start_dateTime);
-                    $scope.activity = data;
-                    console.log(data);
-                });
+                $scope.startActivity(project, activityType);
             }
         };
+
+	    $scope.startActivity = function(project, activityType) {
+		    apiService.startActivity($rootScope.userId, project.id, activityType.code).success(function(data) {
+			    $scope.activityTypeIndex = activityType.id;
+			    $scope.activity = data;
+			    console.log(data);
+		    });
+	    };
 
         //defect form delegate
         $scope.defectTableEditDefect = function(defect) {

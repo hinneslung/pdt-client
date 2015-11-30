@@ -54,6 +54,14 @@
 		    });
 	    };
 
+	    //add iteration
+	    $scope.addIteration = function(phase) {
+		    apiService.addIteration(phase.id).success(function(data) {
+			    console.log(data);
+			    $scope.getProject($scope.project.id);
+		    });
+	    };
+
 
 	    //nav column delegate
 	    $scope.selectNavColumnItem = function(item) {

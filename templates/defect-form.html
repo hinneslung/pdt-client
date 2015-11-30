@@ -42,13 +42,8 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="iteration">Iteration</label>
                 <div class="col-md-4">
-                    <select id="iteration" name="iteration" class="form-control" ng-model="iterationId"
-                            ng-options="iteration.id as iteration.index for iteration in project.phases[phaseIndex].iterations | filter: itemHasStarted" required>
-                        <!--<option ng-repeat="(index, iteration) in project.phases[phaseIndex].iterations"-->
-                                <!--ng-value="iteration.id" ng-show="itemHasStarted(iteration)">-->
-                            <!--{{ index + 1 }}-->
-                        <!--</option>-->
-                        <!--<option ng-show="itemHasStarted(iteration)"></option>-->
+                    <select id="iteration" name="iteration" class="form-control" ng-model="iteration"
+                            ng-options="iteration as iteration.index for iteration in project.phases[phaseIndex].iterations | filter: itemHasStarted" required>
                     </select>
                 </div>
             </div>

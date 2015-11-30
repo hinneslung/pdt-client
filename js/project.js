@@ -112,6 +112,23 @@ function projectService() {
 		}
 	};
 
+	ps.phaseFromIndex = function(index) {
+		index = Number(index);
+		console.log(index);
+		switch (index) {
+			case 0:
+				return 'Inception';
+			case 1:
+				return 'Elaboration';
+			case 2:
+				return 'Construction';
+			case 3:
+				return 'Transition';
+			default:
+				return 'ERROR';
+		}
+	};
+
 	ps.phaseIndexFromCode = function(type) {
 		switch (type) {
 			case 'I':

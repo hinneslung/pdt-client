@@ -29,7 +29,7 @@
                 defect: '=',
                 delegate: '='
             },
-            controller: function($window, $rootScope, $scope, $location, apiService, projectService) {
+            controller: function($window, $rootScope, $scope, $location, apiService, projectService, defectService, modalService) {
                 if ($scope.defect) {
                     $scope.typeCode = $scope.defect.defect_type;
                     $scope.description = $scope.defect.description;
@@ -37,41 +37,53 @@
                     $scope.isShared = $scope.defect.is_shared;
 
                     $scope.phaseIndex = projectService.phaseIndexFromCode($scope.defect.injected_in_iteration.phase.phase_type);
-                    $scope.iterationId = $scope.defect.injected_in_iteration.id + 0;
+                    $scope.iteration = $scope.defect.injected_in_iteration;
 
                     $scope.removedIterationId = $scope.defect.removed_in_iteration.id;
                 } else {
                     //form
                     $scope.typeCode = "";
                     $scope.description = "";
-                    $scope.iterationId = "";
+                    $scope.iteration = "";
                     $scope.iterationActivityTypeCode = "";
                     $scope.isShared = false;
 
                     $scope.phaseIndex = "";
                 }
 
-
-
                 $scope.itemHasStarted = function(item) {
                     return item.status != 'N';
                 };
 
                 $scope.phaseChanged = function() {
-                    $scope.iterationId = "";
+                    $scope.iteration = {};
                 };
 
                 $scope.create = function() {
+                    modalService.open(
+                        "Confirm",
+                        defectService.defectTypeFromType($scope.typeCode) + '\n' +
+                        $scope.description + '\n' +
+                        projectService.phaseFromIndex($scope.phaseIndex) + '\n' +
+	                    $scope.iteration.index + '\n' +
+	                    defectService.iterationActivityFromType($scope.iterationActivityTypeCode) + '\n' +
+	                    $scope.isShared,
+                        [],
+                        $scope.send
+                    );
+                };
+
+                $scope.send = function() {
                     if ($scope.defect) {
                         apiService.sendDefect($rootScope.userId, $scope.typeCode, $scope.description,
-                            $scope.iterationId, $scope.removedIterationId, $scope.iterationActivityTypeCode, $scope.isShared, $scope.defect.id).success(function(data) {
+                            $scope.iteration.id, $scope.removedIterationId, $scope.iterationActivityTypeCode, $scope.isShared, $scope.defect.id).success(function(data) {
                             $scope.clearForm();
                             $scope.delegate.defectFormFinishEditing();
                             console.log(data);
                         });
                     } else {
                         apiService.sendDefect($rootScope.userId, $scope.typeCode, $scope.description,
-                            $scope.iterationId, $scope.project.active_iteration.id, $scope.iterationActivityTypeCode, $scope.isShared, undefined).success(function(data) {
+                            $scope.iteration.id, $scope.project.active_iteration.id, $scope.iterationActivityTypeCode, $scope.isShared, undefined).success(function(data) {
                             $scope.clearForm();
                             console.log(data);
                         });
@@ -81,7 +93,7 @@
                 $scope.clearForm = function() {
                     $scope.typeCode = "";
                     $scope.description = "";
-                    $scope.iterationId = "";
+                    $scope.iteration = {};
                     $scope.iterationActivityTypeCode = "";
                     $scope.isShared = false;
                     $scope.phaseIndex = "";

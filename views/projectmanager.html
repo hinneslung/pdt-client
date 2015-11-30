@@ -77,6 +77,12 @@
                             </tr>
                         </table>
                     </div>
+                    <div ng-show="phase.status != 'E'">
+                        <button type="button" class="btn btn-default btn-md" ng-click="addIteration(phase);">
+                            <span class="glyphicon glyphicon-add" aria-hidden="true"></span> +1 Iteration
+                        </button>
+                        <hr>
+                    </div>
                 </div>
             </div>
         </uib-tab>
@@ -87,7 +93,9 @@
                 <i class="glyphicon glyphicon-th-list"></i> Metrics 2
             </uib-tab-heading>
 
-            <div class="row" style="width: 100%">
+            <p ng-show="project.status != 'E'">Only available if project ended</p>
+
+            <div class="row" style="width: 100%" ng-if="project.status == 'E'">
                 <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">Project</div>
@@ -115,25 +123,23 @@
 
             <hr>
 
-            <div class="row" ng-repeat="(phaseIndex, phase) in project.phases" style="width: 100%">
+            <div class="row" ng-repeat="(phaseIndex, phase) in project.phases" style="width: 100%" ng-if="project.status == 'E'">
                 <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">{{phase.title}} - {{projectService.status(phase)}}</div>
                         <table class="table">
                             <tr>
                                 <th>Iteration</th><th>Removed</th>
-                                <th>Injected</th><th>Removed in Last Itr</th><th>Escaped</th>
-                                <th>Total</th><th>Yield</th>
+                                <th>Injected</th><th>Escaped</th>
+                                <th>Yield</th>
                                 <th>Injection Rate</th><th>Removal Rate</th>
                                 <th>Density</th>
                             </tr>
                             <tr ng-repeat="(iterationIndex, iteration) in phase.iterations">
                                 <td>{{iterationIndex + 1}}</td>
                                 <td>{{iteration.num_defects_removed}}</td>
-                                <td>{{iteration.num_defects_injected}}</td>
-                                <td>{{iteration.num_defects_removed_in_last_iteration}}</td>
-                                <td>{{iteration.escaped}}</td>
                                 <td>{{iteration.total_defects_injected}}</td>
+                                <td>{{iteration.escaped}}</td>
                                 <td>{{iteration.yield | percentage: 2}}</td>
                                 <td>{{iteration.total_defects_injected / iteration.effort | number:2}}</td>
                                 <td>{{iteration.num_defects_removed / iteration.effort | number:2}}</td>
@@ -142,10 +148,8 @@
                             <tr style="background-color:lightgray">
                                 <td><b>Phase</b></td>
                                 <td>{{phase.num_defects_removed}}</td>
-                                <td>{{phase.num_defects_injected}}</td>
-                                <td></td>
-                                <td></td>
                                 <td>{{phase.total_defects_injected}}</td>
+                                <td></td>
                                 <td>{{phase.yield | percentage: 2}}</td>
                                 <td>{{phase.total_defects_injected / phase.effort | number:2}}</td>
                                 <td>{{phase.num_defects_removed / phase.effort | number:2}}</td>

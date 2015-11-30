@@ -36,6 +36,10 @@ function apiService($http, $rootScope) {
         });
     };
 
+	api.resetPassword = function(userType, userId) {
+		return $http.put(apiUrl + userType + '/' + userId + '/reset_password/');
+	};
+
 	//-----------------------------------------------------------------------------Project
 	api.project = function(id) {
 		return $http.get(apiUrl + 'project/' + id + '/' + jsonQuery);
@@ -76,12 +80,8 @@ function apiService($http, $rootScope) {
 			headers: {"Content-Type": "application/json;charset=utf-8"}
 		})
 	};
-	api.addIteration = function(projectId, sloc) {
-		return $http({ url: apiUrl + 'project/' + projectId + '/iteration/close/',
-			method: 'DELETE',
-			data: {lines_of_codes: sloc},
-			headers: {"Content-Type": "application/json;charset=utf-8"}
-		})
+	api.addIteration = function(phaseId) {
+		return $http.post(apiUrl + 'phase/' + phaseId + '/iteration/add/', {description:''});
 	};
 
 	//-----------------------------------------------------------------------------Activity
@@ -96,7 +96,7 @@ function apiService($http, $rootScope) {
 		return $http.delete(apiUrl + 'developer/' + developerId + '/activity/close/');
 	};
 
-	//-----------------------------------------------------------------------------Activity
+	//-----------------------------------------------------------------------------Defect
 	api.sendDefect = function(developerId, typeCode, description,
 								injectedIterationId, removedIterationId, activityTypeCode, isShared, idBeingEdited) {
 		var defect = {
