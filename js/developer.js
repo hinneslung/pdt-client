@@ -59,6 +59,8 @@
         $scope.switchTo = function(project, activityType) {
             console.log(project.id + ' ' +  activityType.id);
 
+            $scope.isEditingDefect = false;
+
             $scope.getProject(project.id);
             if (activityType.code == 'M')
                 $scope.getDefects(project.id);
@@ -105,6 +107,7 @@
         $scope.defectFormFinishEditing = function() {
             $scope.defectBeingEdited = undefined;
             $scope.isEditingDefect = false;
+            $scope.getDefects($scope.project.id);
         };
 
         //nav bar delegate

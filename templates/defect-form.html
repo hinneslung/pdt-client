@@ -27,7 +27,7 @@
 
             <!-- Phase -->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="phase">Phase</label>
+                <label class="col-md-4 control-label" for="phase">Injected in Phase</label>
                 <div class="col-md-4">
                     <select id="phase" name="phase" class="form-control" ng-model="phaseIndex" ng-change="phaseChanged()" required>
                         <option ng-show="itemHasStarted(project.phases[0])" value="0">Inception</option>
@@ -40,7 +40,7 @@
 
             <!-- Iteration -->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="iteration">Iteration</label>
+                <label class="col-md-4 control-label" for="iteration">Injected in Iteration</label>
                 <div class="col-md-4">
                     <select id="iteration" name="iteration" class="form-control" ng-model="iteration"
                             ng-options="iteration as iteration.index for iteration in project.phases[phaseIndex].iterations | filter: itemHasStarted" required>
@@ -50,7 +50,7 @@
 
             <!-- Activity -->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="activity">Iteration Activity</label>
+                <label class="col-md-4 control-label" for="activity">Injected in Iteration Activity</label>
                 <div class="col-md-4">
                     <select id="activity" name="activity" class="form-control" ng-model="iterationActivityTypeCode" required>
                         <option value="R">Requirements</option>
@@ -72,7 +72,7 @@
 
             <div class="col-md-4 col-md-offset-4">
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
-                <button class="btn btn-lg btn-primary btn-block btn-warning" type="submit" ng-click="cancel();" ng-show="defect">Cancel</button>
+                <button class="btn btn-lg btn-primary btn-block btn-warning" ng-click="cancel()" ng-show="defect">Cancel</button>
             </div>
         </fieldset>
     </form>

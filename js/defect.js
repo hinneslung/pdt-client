@@ -62,12 +62,13 @@
                 $scope.create = function() {
                     modalService.open(
                         "Confirm",
-                        defectService.defectTypeFromType($scope.typeCode) + '\n' +
-                        $scope.description + '\n' +
-                        projectService.phaseFromIndex($scope.phaseIndex) + '\n' +
-	                    $scope.iteration.index + '\n' +
-	                    defectService.iterationActivityFromType($scope.iterationActivityTypeCode) + '\n' +
-	                    $scope.isShared,
+                        'Type: ' +
+                        defectService.defectTypeFromType($scope.typeCode) + '; Description: ' +
+                        $scope.description + '; Inserted in: ' +
+                        projectService.phaseFromIndex($scope.phaseIndex) + ' ' +
+	                    $scope.iteration.index + ' ' +
+	                    defectService.iterationActivityFromType($scope.iterationActivityTypeCode) +
+                        ($scope.isShared ? '; Shared ' : '; Not Shared '),
                         [],
                         $scope.send
                     );
@@ -100,7 +101,7 @@
                 };
 
                 $scope.cancel = function() {
-                    $scope.delegate.defectTypeFromType();
+                    $scope.delegate.defectFormFinishEditing();
                 };
             }
         };
